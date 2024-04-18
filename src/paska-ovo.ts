@@ -5,6 +5,8 @@ export class PaskaOvo {
 	private easterEggs: EasterEgg[] = [];
 	private callbacks: Callback[] = [];
 
+	private keysPressed: string[] = [];
+
 	constructor();
 
 	constructor(code?: string, fn?: () => void, tag?: string) {
@@ -20,7 +22,27 @@ export class PaskaOvo {
 	}
 
 	private handleKeyEvent(event: KeyboardEvent) {
-		console.log(event.code)
+		const { key } = event;
+		if (this.easterEggs.length === 0) {
+			return;
+		}
+
+		this.keysPressed.push(key);
+
+		this.easterEggs.forEach((easterEgg) => {
+			const matches = this.keysPressed.toString().includes(easterEgg.code)
+			if (matches) {
+				easterEgg.fn();
+
+				this.callbacks.forEach(callback => callback(easterEgg));
+
+				this.reset();
+			}
+		})
+	}
+
+	private reset() {
+		this.keysPressed = [];
 	}
 
 	public addCallback(callback: Callback): this {
