@@ -1,6 +1,6 @@
 export type EasterEgg = {
     code: string,
-    callable: () => void,
+    fn: () => void,
     tag: string
 };
 

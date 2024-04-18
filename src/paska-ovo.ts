@@ -1,4 +1,5 @@
 import type { Callback, EasterEgg } from "./types.ts";
+import { codeToChars } from "./util/code.ts";
 
 export class PaskaOvo {
 	private easterEggs: EasterEgg[] = [];
@@ -6,22 +7,14 @@ export class PaskaOvo {
 
 	constructor();
 
-	constructor(code?: string, callable?: () => void, tag?: string) {
-		if (code && callable && tag) {
-			this.easterEggs.push({
-				code,
-				callable,
-				tag
-			});
+	constructor(code?: string, fn?: () => void, tag?: string) {
+		if (code && fn && tag) {
+			this.easterEggs.push({ code, fn, tag });
 		}
 	}
 
-	public addCode(code: string, callable: () => void, tag: string): this {
-		this.easterEggs.push({
-			code,
-			callable,
-			tag
-		});
+	public addCode(code: string, fn: () => void, tag: string): this {
+		this.easterEggs.push({ code: codeToChars(code), fn, tag });
 
 		return this;
 	}
@@ -32,12 +25,12 @@ export class PaskaOvo {
 
 	public addCallback(callback: Callback): this {
 		this.callbacks.push(callback);
+
 		return this;
 	}
 
 	public listen() {
 		document.addEventListener("keyup", this.handleKeyEvent, false);
-		document.addEventListener("keydown", this.handleKeyEvent, false);
 
 		return this;
 	}
