@@ -31,8 +31,6 @@ export class PaskaOvo {
 
 	public listen() {
 		document.addEventListener("keyup", this.handleKeyEvent, false);
-
-		return this;
 	}
 }
 
