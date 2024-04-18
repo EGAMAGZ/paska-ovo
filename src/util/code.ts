@@ -25,7 +25,7 @@ export function codeToChars(code: string): string {
                 return SPECIAL_KEYS[c];
             }
 
-            return c.charCodeAt(0);
+            return c;
         })
         .join(",");
 }
