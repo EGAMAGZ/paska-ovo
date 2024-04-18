@@ -1,5 +1,13 @@
 {
   "name": "@egamagz/paska-ovo",
   "version": "0.0.1",
-  "exports": "./src/mod.ts"
+  "exports": "./mod.ts",
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "dom.asynciterable",
+      "deno.ns"
+    ]
+  }
 }
