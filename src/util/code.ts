@@ -7,13 +7,13 @@ import { SPECIAL_KEYS } from "./constants.ts";
 
 /**
  * Converts a string of comma-separated key codes into a string of corresponding character codes or special key names.
- * 
+ *
  * @param {string} code - The string of comma-separated key codes to convert.
  * @return {string} The string of corresponding character codes or special key names.
  */
-export function codeToChars(code: string, delimiter = ","): string {
+export function codeToChars(code: string): string {
     return code
-        .split(delimiter)
+        .split(",")
         .map(c => c.trim().toLowerCase())
         .filter(c => c !== "")
         .map(c => {
@@ -27,5 +27,5 @@ export function codeToChars(code: string, delimiter = ","): string {
 
             return c.charCodeAt(0);
         })
-        .join(delimiter);
+        .join(",");
 }

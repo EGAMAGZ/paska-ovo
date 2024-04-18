@@ -15,7 +15,6 @@ export class PaskaOvo {
 	private callbacks: Callback[] = [];
 
 	private keysPressed: string[] = [];
-	private delimiter: string;
 
 	constructor();
 
@@ -26,9 +25,7 @@ export class PaskaOvo {
 	 * @param {() => void} fn - Function to execute when the easter egg is triggered.
 	 * @param {string} tag - Tag to identify the easter egg.
 	 */
-	constructor(code?: string, fn?: () => void, tag?: string, delimiter = ',') {
-		this.delimiter = delimiter;
-
+	constructor(code?: string, fn?: () => void, tag?: string) {
 		if (code && fn && tag) {
 			this.easterEggs.push({ code, fn, tag });
 		}
@@ -43,7 +40,7 @@ export class PaskaOvo {
 	 * @return {this} - Current instance of PaskaOvo.
 	 */
 	public addCode(code: string, fn: () => void, tag: string): this {
-		this.easterEggs.push({ code: codeToChars(code, this.delimiter), fn, tag });
+		this.easterEggs.push({ code: codeToChars(code), fn, tag });
 
 		return this;
 	}
