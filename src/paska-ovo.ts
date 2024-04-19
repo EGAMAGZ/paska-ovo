@@ -16,7 +16,6 @@ export class PaskaOvo {
 
 	private keysPressed: string[] = [];
 
-	constructor();
 
 	/**
 	 * Constructs a new instance of the class with optional parameters for an easter egg.
