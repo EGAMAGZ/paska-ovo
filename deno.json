@@ -14,6 +14,7 @@
     "@std/testing": "https://deno.land/std@0.223.0/assert/mod.ts"
   },
   "tasks": {
-    "doc": "deno doc --html --name='Paska Ovo' src"
+    "doc": "deno doc --html --name='Paska Ovo' src",
+    "astro:dev": "cd www && deno run -A --unstable npm:astro@latest dev"
   }
 }
