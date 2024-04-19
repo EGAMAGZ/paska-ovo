@@ -1,7 +1,7 @@
 import { assertEquals } from "@std/testing";
 
 import { codeToChars } from "../src/util/code.ts";
-import HistoricalCodes from "../src/historical-codes.ts"
+import { HistoricalCodes } from "../src/historical-codes.ts"
 
 Deno.test("codeToChars - Valid code structure", () => {
 
