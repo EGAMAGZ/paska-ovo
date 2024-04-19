@@ -50,15 +50,16 @@ export class PaskaOvo {
 	 *
 	 * @param {KeyboardEvent} event - The key event to handle.
 	 */
-	private handleKeyEvent(event: KeyboardEvent) {
+	private handleKeyEvent(event: KeyboardEvent, easterEggs: EasterEgg[]) {
 		const { key } = event;
-		if (this.easterEggs.length === 0) {
+		//FIXME: Why when is used this.easterEgss is undefined
+		if (easterEggs.length === 0) {
 			return;
 		}
 
 		this.keysPressed.push(key);
 
-		this.easterEggs.forEach((easterEgg) => {
+		easterEggs.forEach((easterEgg) => {
 			const matches = this.keysPressed.toString().includes(easterEgg.code)
 			if (matches) {
 				easterEgg.fn();
@@ -93,7 +94,9 @@ export class PaskaOvo {
 	 * Adds an event listener to the document for keyup events.
 	 */
 	public listen() {
-		document.addEventListener("keyup", this.handleKeyEvent, false);
+		document.addEventListener("keyup", (event) => {
+			this.handleKeyEvent(event, this.easterEggs)
+		}, false);
 	}
 }
 
