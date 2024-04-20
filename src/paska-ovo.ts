@@ -16,6 +16,7 @@ export class PaskaOvo {
 
 	private keysPressed: string[] = [];
 
+	private keyListener?: ((event: KeyboardEvent) => void);
 
 	/**
 	 * Constructs a new instance of the class with optional parameters for an easter egg.
@@ -72,6 +73,18 @@ export class PaskaOvo {
 	}
 
 	/**
+	 * Creates a function that handles the key event.
+	 *
+	 * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
+	 * @return {(event: KeyboardEvent) => void} Function that handles the key event.
+	 */
+	private createHandleKeyEvent(easterEggs: EasterEgg[]): (event: KeyboardEvent) => void {
+		return (event: KeyboardEvent) => {
+			this.handleKeyEvent(event, easterEggs);
+		}
+	}
+
+	/**
 	 * Resets the keysPressed array to an empty array.
 	 */
 	private reset() {
@@ -90,17 +103,25 @@ export class PaskaOvo {
 		return this;
 	}
 
-	private stop() {
-		// document.addEventListener()
+	/**
+	 * Adds an event listener to the document for keyup events if it is not already added.
+	*/
+	public listen() {
+		if (this.keyListener !== undefined) {
+			this.stop();
+		}
+		this.keyListener = this.createHandleKeyEvent(this.easterEggs);
+
+		document.addEventListener("keyup", this.keyListener);
 	}
 
 	/**
-	 * Adds an event listener to the document for keyup events.
-	 */
-	public listen() {
-		document.addEventListener("keyup", (event) => {
-			this.handleKeyEvent(event, this.easterEggs)
-		}, false);
+	 * Removes the event listener from the document.
+	 * */
+	public stop() {
+		if (this.keyListener) {
+			document.removeEventListener("keyup", this.keyListener);
+		}
 	}
 }
 
