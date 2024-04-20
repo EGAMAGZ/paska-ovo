@@ -26,7 +26,7 @@ export class PaskaOvo {
 	 */
 	constructor(code?: string, fn?: () => void, tag?: string) {
 		if (code && fn && tag) {
-			this.easterEggs.push({ code, fn, tag });
+			this.addCode(code, fn, tag);
 		}
 	}
 
@@ -59,7 +59,8 @@ export class PaskaOvo {
 		this.keysPressed.push(key);
 
 		easterEggs.forEach((easterEgg) => {
-			const matches = this.keysPressed.toString().includes(easterEgg.code)
+			const matches = this.keysPressed.toString().includes(easterEgg.code);
+
 			if (matches) {
 				easterEgg.fn();
 
@@ -87,6 +88,10 @@ export class PaskaOvo {
 		this.callbacks.push(callback);
 
 		return this;
+	}
+
+	private stop() {
+		// document.addEventListener()
 	}
 
 	/**

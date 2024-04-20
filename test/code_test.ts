@@ -9,6 +9,7 @@ Deno.test("codeToChars - Valid code structure", () => {
         codeToChars("up,up,down,down, left,right,left,right,b,a"),
         "ArrowUp,ArrowUp,ArrowDown,ArrowDown,ArrowLeft,ArrowRight,ArrowLeft,ArrowRight,b,a"
     );
+    "ArrowUp,ArrowUp,ArrowDown,ArrowDown,ArrowLeft,ArrowRight,ArrowLeft,ArrowRight,b,a"
 
     assertEquals(
         codeToChars("up,down,left,right,enter,space,ctrl,alt,tab,esc,slash"),
