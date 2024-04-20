@@ -52,7 +52,7 @@ export class PaskaOvo {
 	 */
 	private handleKeyEvent(event: KeyboardEvent, easterEggs: EasterEgg[]) {
 		const { key } = event;
-		//FIXME: Why when is used this.easterEgss is undefined
+
 		if (easterEggs.length === 0) {
 			return;
 		}
