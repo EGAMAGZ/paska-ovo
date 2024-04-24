@@ -6,10 +6,11 @@
 
 /**
  * Type with the properties of an easter egg.
+ * 
  */
 export type EasterEgg = {
     code: string,
-    fn: () => void,
+    callback: () => void,
     tag: string
 };
 

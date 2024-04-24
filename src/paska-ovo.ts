@@ -40,7 +40,7 @@ export class PaskaOvo {
 	 * @return {this} - Current instance of PaskaOvo.
 	 */
 	public addCode(code: string, fn: () => void, tag: string): this {
-		this.easterEggs.push({ code: codeToChars(code), fn, tag });
+		this.easterEggs.push({ code: codeToChars(code), callback, tag });
 
 		return this;
 	}
@@ -63,7 +63,7 @@ export class PaskaOvo {
 			const matches = this.keysPressed.toString().includes(easterEgg.code);
 
 			if (matches) {
-				easterEgg.fn();
+				easterEgg.callback();
 
 				this.callbacks.forEach(callback => callback(easterEgg));
 
