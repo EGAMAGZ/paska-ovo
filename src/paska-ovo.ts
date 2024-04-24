@@ -39,7 +39,7 @@ export class PaskaOvo {
 	 * @param {string} tag - Tag to identify the easter egg.
 	 * @return {this} - Current instance of PaskaOvo.
 	 */
-	public addCode(code: string, fn: () => void, tag: string): this {
+	public addCode(code: string, callback: () => void, tag: string): this {
 		this.easterEggs.push({ code: codeToChars(code), callback, tag });
 
 		return this;
