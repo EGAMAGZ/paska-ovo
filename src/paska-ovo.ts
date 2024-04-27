@@ -9,6 +9,33 @@ import { codeToChars } from "./util/code.ts";
 
 /**
  * This class represents the PaskaOvo class.
+ * 
+ * @example
+ * ```typescript
+ * import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
+ * 
+ * const paskaOvo = new PaskaOvo()
+ * 		.addCallback((easterEgg) => {
+ * 			console.log("Actual easter egg:", easterEgg.tag);
+ * 			console.log("Easter egg's code:", easterEgg.code);
+ * 		})
+ * 		.addCode(
+ * 			HistoricalCodes.Iddqd,
+ * 			() => {
+ * 				alert("God Mode");
+ * 			},
+ * 			"Doom",
+ * 		)
+ * 		.addCode("left,up,right,down", () => {
+ * 			alert("Do a Barrel Roll");
+ * 		}, "Barrel Roll");
+ * 
+ * paskaOvo.listen();
+ * 
+ * // ...
+ * 
+ * paskaOvo.stop()
+ * ```
  */
 export class PaskaOvo {
 	private easterEggs: EasterEgg[] = [];
@@ -35,9 +62,9 @@ export class PaskaOvo {
 	 * Adds an easter egg to the easterEggs array of the current instance of PaskaOvo.
 	 *
 	 * @param {string} code - Sequence of keys to trigger the easter egg.
-	 * @param {() => void} fn - Function to execute when the easter egg is triggered.
+	 * @param {() => void} callback - Function to execute when the easter egg is triggered.
 	 * @param {string} tag - Tag to identify the easter egg.
-	 * @return {this} - Current instance of PaskaOvo.
+	 * @return {this} Current instance of PaskaOvo.
 	 */
 	public addCode(code: string, callback: () => void, tag: string): this {
 		this.easterEggs.push({ code: codeToChars(code), callback, tag });
