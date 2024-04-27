@@ -28,25 +28,20 @@ Check the [JSR page for more details](https://jsr.io/@egamagz/paska-ovo).
 
 ## Example
 
-```javascript
+```typescript
 import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
 
-const paskaOvo = new PaskaOvo(
-  HistoricalCodes.Konami,
-  () => {
-    alert("Gradius");
-  },
-  "konami-code",
-)
+const paskaOvo = new PaskaOvo()
   .addCallback((easterEgg) => {
     console.log("Actual easter egg:", easterEgg.tag);
+    console.log("Easter egg's code:", easterEgg.code);
   })
   .addCode(
     HistoricalCodes.Iddqd,
     () => {
       alert("God Mode");
     },
-    "doom",
+    "Doom",
   )
   .addCode("left,up,right,down", () => {
     alert("Do a Barrel Roll");
@@ -64,6 +59,26 @@ document.getElementById("remove-easter-egg")
     paskaOvo.stop();
   });
 
+```
+
+Alternatively, it's possible to define the easter egg using the constructor:
+
+```typescript
+import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
+
+const paskaOvo = new PaskaOvo(
+  HistoricalCodes.Konami,
+  () => {
+    alert("Gradius");
+  },
+  "konami-code",
+)
+  .addCallback((easterEgg) => {
+    console.log("Actual easter egg:", easterEgg.tag);
+    console.log("Easter egg's code:", easterEgg.code);
+  });
+
+paskaOvo.listen();
 ```
 
 ## Credits
