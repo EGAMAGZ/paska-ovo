@@ -1,0 +1,37 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+	<h1>Pask Ovo</h1>
+	<script>
+		import { PaskaOvo } from "@/../../mod";
+
+		const paskaOvo = new PaskaOvo({
+			code: ["t", "e", "t", "r", "i", "s"],
+			onFound: () => {
+				alert("Found");
+			},
+			tag: "Tetris",
+		})
+			.addCode({
+				code: ["i", "d", "d", "q", "d"],
+				onFound: () => {
+					alert("Doom found");
+				},
+				tag: "Doom",
+			})
+			.addCode({
+				code: ["up", "right", "down", "left"],
+				onFound: () => {
+					alert("Do a barrel roll!");
+				},
+				tag: "Barrel roll",
+			})
+			.addCallback((easterEgg) => {
+				console.log(`${easterEgg.tag} found!`);
+			});
+
+		paskaOvo.listen();
+	</script>
+</Layout>
