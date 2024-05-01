@@ -83,7 +83,7 @@ paskaOvo.listen();
 
 ## Credits
 
-Inspired by the project [Egg.js](https://github.com/mikeflynn/egg.js). Created by [EGAMAGZ](https://github.com/EGAMAGZ).
+Inspired by the project [Egg.js](https://github.com/mikeflynn/egg.js) and [La Velada Web](https://github.com/midudev/la-velada-web-oficial). Created by [EGAMAGZ](https://github.com/EGAMAGZ).
 
 ## License
 
