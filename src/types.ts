@@ -1,7 +1,7 @@
 /**
- * This module contains the types for the project.
- * 
  * @module
+ * 
+ * This module contains the types for the project.
  */
 
 /**
@@ -9,11 +9,19 @@
  * 
  */
 export type EasterEgg = {
-    code: string,
-    callback: () => void,
+    code: string[],
+    onFound: () => void,
+    onFinish?: () => void,
     tag: string
 };
 
+/**
+ *  
+ * 
+ * */
+export interface EasterEggState {
+    [code: string]: number
+}
 
 /**
  * Type with the properties of a callback.
