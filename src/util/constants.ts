@@ -1,7 +1,7 @@
 /**
+ * @module
  * This module contains constants used in the project.
  * 
- * @module
  */
 
 export const SPECIAL_KEYS: Record<string, string> = {

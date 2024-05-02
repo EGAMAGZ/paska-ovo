@@ -1,7 +1,7 @@
 /**
  * @module
- * 
  * This module contains the types for the project.
+ * 
  */
 
 /**
@@ -11,16 +11,17 @@
 export type EasterEgg = {
     code: string[],
     onFound: () => void,
+    tag: string,
     onFinish?: () => void,
-    tag: string
+    duration?: number,
 };
 
 /**
- *  
+ * Type to manage the state, actual key pressed, of each easter egg registered
  * 
  * */
 export interface EasterEggState {
-    [code: string]: number
+    [tag: string]: number
 }
 
 /**

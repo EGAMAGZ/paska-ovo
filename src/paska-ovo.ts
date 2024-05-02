@@ -4,8 +4,8 @@
  * @module
  */
 
-import type { Callback, EasterEgg, EasterEggState } from "@/types.ts";
-import { codeToChars } from "@/util/code.ts";
+import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
+import { codeToChars } from "./util/code.ts";
 
 /**
  * Class that is used to manage easter eggs.
@@ -67,14 +67,32 @@ export class PaskaOvo {
 			const nextCodePosition = actualCodePosition + 1;
 
 			if (nextCodePosition === easterEgg.code.length) {
-				easterEgg.onFound();
-				this.callbacks.forEach((callback) => callback(easterEgg));
-				this.easterEggState[easterEgg.tag] = 0;
+				this.executeEasterEgg(easterEgg);
 
+				this.easterEggState[easterEgg.tag] = 0;
 			} else {
 				this.easterEggState[easterEgg.tag] = nextCodePosition;
 			}
 		});
+	}
+
+	/**
+	 * Executes an easter egg, when it is found, and calls its callbacks.
+	 * 	
+	 */
+	private executeEasterEgg(easterEgg: EasterEgg) {
+		easterEgg.onFound();
+
+		this.callbacks.forEach((callback) => callback(easterEgg));
+
+		if (easterEgg.onFinish) {
+			if (easterEgg.duration) {
+				setTimeout(easterEgg.onFinish, easterEgg.duration);
+			} else {
+				easterEgg.onFinish();
+			}
+		}
+		
 	}
 
 	/**

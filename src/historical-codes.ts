@@ -1,7 +1,7 @@
 /**
+ * @module
  * This module contains historical codes used in the project.
  * 
- * @module
  */
 
 export const HistoricalCodes = {

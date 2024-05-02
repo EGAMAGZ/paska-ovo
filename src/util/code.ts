@@ -1,8 +1,8 @@
 /** 
- * This module contains utility functions for converting key codes into character codes or special key names.
  * @module
+ * This module contains utility functions for converting key codes into character codes or special key names.
 */
-import { SPECIAL_KEYS } from "@/util/constants.ts";
+import { SPECIAL_KEYS } from "../util/constants.ts";
 
 
 /**
