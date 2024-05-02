@@ -1,7 +1,8 @@
 /**	
  * @module
  * 
- * This module contains the PaskaOvo class and its methods.
+ * This module contains the PaskaOvo class and its methods. It is the entry 
+ * point of the library.
  */
 
 import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
