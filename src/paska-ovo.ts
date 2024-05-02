@@ -1,7 +1,7 @@
 /**	
- * This module contains the PaskaOvo class and its methods.
- * 
  * @module
+ * 
+ * This module contains the PaskaOvo class and its methods.
  */
 
 import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
@@ -11,16 +11,30 @@ import { codeToChars } from "./util/code.ts";
  * Class that is used to manage easter eggs.
  */
 export class PaskaOvo {
+	/**
+	 * List of easter eggs registered.
+	 */
 	private easterEggs: EasterEgg[] = [];
+
+	/**
+	 * List of callbacks registered for each easter egg when it is found.
+	 * */
 	private callbacks: Callback[] = [];
+
+	/**
+	 * State of each key pressed for each easter egg.
+	 */
 	private easterEggState: EasterEggState = {};
 
+	/**
+	 * The key listener for the current instance of PaskaOvo.
+	 * */
 	private keyListener?: ((event: KeyboardEvent) => void);
 
 	/**
 	 * Constructs a new instance of the class with optional parameters for an easter egg.
 	 *
-	 * @param easterEgg - The easter egg to add.
+	 * @param {EasterEgg} easterEgg - The easter egg to add.
 	 */
 	constructor(easterEgg?: EasterEgg) {
 		if (easterEgg) {
@@ -29,7 +43,8 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Adds an easter egg to the easterEggs array of the current instance of PaskaOvo.
+	 * Adds an easter egg to the easterEggs array of the current instance of 
+	 * PaskaOvo.
 	 *
 	 * @param {EasterEgg} easterEgg - The easter egg to add.
 	 * @return {this} Current instance of PaskaOvo.
@@ -77,8 +92,12 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Executes an easter egg, when it is found, and calls its callbacks.
+	 * Executes an easter egg, and calls its callbacks. After the easter egg is 
+	 * executed, it will execute its onFinish callback if it has one. If the 
+	 * easter egg also has a duration, the onFinish callback will be executed 
+	 * after the duration.
 	 * 	
+	 * @param {EasterEgg} easterEgg - The easter egg to execute.
 	 */
 	private executeEasterEgg(easterEgg: EasterEgg) {
 		easterEgg.onFound();
@@ -92,7 +111,7 @@ export class PaskaOvo {
 				easterEgg.onFinish();
 			}
 		}
-		
+
 	}
 
 	/**
@@ -108,7 +127,7 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Adds a callback to the callbacks array.
+	 * Adds a callback to list of callbacks to be called when an easter egg is found.
 	 *
 	 * @param {Callback} callback - The callback to add.
 	 * @return {this} The current instance of PaskaOvo.
@@ -120,7 +139,7 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Adds an event listener to the document for keyup events if it is not already added.
+	 * Creates an event listener to the instance for keyup events if it is not already created.
 	*/
 	public listen() {
 		if (this.keyListener !== undefined) {
@@ -133,7 +152,7 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Removes the event listener from the document.
+	 * Removes the event listener from the instance.
 	 * */
 	public stop() {
 		if (this.keyListener) {
