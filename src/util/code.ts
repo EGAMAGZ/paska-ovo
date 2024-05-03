@@ -5,7 +5,6 @@
  * */
 import { SPECIAL_KEYS } from "../util/constants.ts";
 
-
 /**
  * Converts a list of key codes into a list of string of corresponding character codes or special key names.
  *

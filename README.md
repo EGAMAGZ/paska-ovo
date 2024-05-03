@@ -2,6 +2,10 @@
 
 A simple javascript library for adding easter eggs to web pages
 
+[![JSR](https://jsr.io/badges/@egamagz/paska-ovo)](https://jsr.io/@egamagz/paska-ovo)
+![GitHub License](https://img.shields.io/github/license/egamagz/paska-ovo)
+![GitHub Release](https://img.shields.io/github/v/release/egamagz/paska-ovo)
+
 ## Installation
 
 ### For Deno
