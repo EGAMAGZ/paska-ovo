@@ -1,5 +1,7 @@
 # Paska Ovo
 
+![Paska](./img/paska-logo.png)
+
 A simple javascript library for adding easter eggs to web pages
 
 [![JSR](https://jsr.io/badges/@egamagz/paska-ovo)](https://jsr.io/@egamagz/paska-ovo)
