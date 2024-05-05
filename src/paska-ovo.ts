@@ -1,74 +1,60 @@
 /**	
- * This module contains the PaskaOvo class and its methods.
- * 
  * @module
+ * 
+ * This module contains the PaskaOvo class and its methods. It is the entry 
+ * point of the library.
  */
 
-import type { Callback, EasterEgg } from "./types.ts";
+import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
 import { codeToChars } from "./util/code.ts";
 
 /**
- * This class represents the PaskaOvo class.
- * 
- * @example
- * ```typescript
- * import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
- * 
- * const paskaOvo = new PaskaOvo()
- * 		.addCallback((easterEgg) => {
- * 			console.log("Actual easter egg:", easterEgg.tag);
- * 			console.log("Easter egg's code:", easterEgg.code);
- * 		})
- * 		.addCode(
- * 			HistoricalCodes.Iddqd,
- * 			() => {
- * 				alert("God Mode");
- * 			},
- * 			"Doom",
- * 		)
- * 		.addCode("left,up,right,down", () => {
- * 			alert("Do a Barrel Roll");
- * 		}, "Barrel Roll");
- * 
- * paskaOvo.listen();
- * 
- * // ...
- * 
- * paskaOvo.stop()
- * ```
+ * Class that is used to manage easter eggs.
  */
 export class PaskaOvo {
+	/**
+	 * List of easter eggs registered.
+	 */
 	private easterEggs: EasterEgg[] = [];
+
+	/**
+	 * List of callbacks registered for each easter egg when it is found.
+	 * */
 	private callbacks: Callback[] = [];
 
-	private keysPressed: string[] = [];
+	/**
+	 * State of each key pressed for each easter egg.
+	 */
+	private easterEggState: EasterEggState = {};
 
+	/**
+	 * The key listener for the current instance of PaskaOvo.
+	 * */
 	private keyListener?: ((event: KeyboardEvent) => void);
 
 	/**
 	 * Constructs a new instance of the class with optional parameters for an easter egg.
 	 *
-	 * @param {string} code - Sequence of keys to trigger the easter egg.
-	 * @param {() => void} fn - Function to execute when the easter egg is triggered.
-	 * @param {string} tag - Tag to identify the easter egg.
+	 * @param {EasterEgg} easterEgg - The easter egg to add.
 	 */
-	constructor(code?: string, fn?: () => void, tag?: string) {
-		if (code && fn && tag) {
-			this.addCode(code, fn, tag);
+	constructor(easterEgg?: EasterEgg) {
+		if (easterEgg) {
+			this.addCode(easterEgg);
 		}
 	}
 
 	/**
-	 * Adds an easter egg to the easterEggs array of the current instance of PaskaOvo.
+	 * Adds an easter egg to the easterEggs array of the current instance of 
+	 * PaskaOvo.
 	 *
-	 * @param {string} code - Sequence of keys to trigger the easter egg.
-	 * @param {() => void} callback - Function to execute when the easter egg is triggered.
-	 * @param {string} tag - Tag to identify the easter egg.
+	 * @param {EasterEgg} easterEgg - The easter egg to add.
 	 * @return {this} Current instance of PaskaOvo.
 	 */
-	public addCode(code: string, callback: () => void, tag: string): this {
-		this.easterEggs.push({ code: codeToChars(code), callback, tag });
-
+	public addCode(easterEgg: EasterEgg): this {
+		this.easterEggs.push({
+			...easterEgg,
+			code: codeToChars(easterEgg.code),
+		});
 		return this;
 	}
 
@@ -76,27 +62,57 @@ export class PaskaOvo {
 	 * Handles the key event for the current instance of PaskaOvo.
 	 *
 	 * @param {KeyboardEvent} event - The key event to handle.
+	 * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
 	 */
 	private handleKeyEvent(event: KeyboardEvent, easterEggs: EasterEgg[]) {
-		const { key } = event;
-
 		if (easterEggs.length === 0) {
 			return;
 		}
 
-		this.keysPressed.push(key);
+		const { key } = event;
 
 		easterEggs.forEach((easterEgg) => {
-			const matches = this.keysPressed.toString().includes(easterEgg.code);
+			const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
+			const actualCode = easterEgg.code[actualCodePosition];
 
-			if (matches) {
-				easterEgg.callback();
+			if (key !== actualCode) {
+				this.easterEggState[easterEgg.tag] = 0;
+				return;
+			}
 
-				this.callbacks.forEach(callback => callback(easterEgg));
+			const nextCodePosition = actualCodePosition + 1;
 
-				this.reset();
+			if (nextCodePosition === easterEgg.code.length) {
+				this.executeEasterEgg(easterEgg);
+
+				this.easterEggState[easterEgg.tag] = 0;
+			} else {
+				this.easterEggState[easterEgg.tag] = nextCodePosition;
 			}
 		});
+	}
+
+	/**
+	 * Executes an easter egg, and calls its callbacks. After the easter egg is 
+	 * executed, it will execute its onFinish callback if it has one. If the 
+	 * easter egg also has a duration, the onFinish callback will be executed 
+	 * after the duration.
+	 * 	
+	 * @param {EasterEgg} easterEgg - The easter egg to execute.
+	 */
+	private executeEasterEgg(easterEgg: EasterEgg) {
+		easterEgg.onFound();
+
+		this.callbacks.forEach((callback) => callback(easterEgg));
+
+		if (easterEgg.onFinish) {
+			if (easterEgg.duration) {
+				setTimeout(easterEgg.onFinish, easterEgg.duration);
+			} else {
+				easterEgg.onFinish();
+			}
+		}
+
 	}
 
 	/**
@@ -112,14 +128,7 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Resets the keysPressed array to an empty array.
-	 */
-	private reset() {
-		this.keysPressed = [];
-	}
-
-	/**
-	 * Adds a callback to the callbacks array.
+	 * Adds a callback to list of callbacks to be called when an easter egg is found.
 	 *
 	 * @param {Callback} callback - The callback to add.
 	 * @return {this} The current instance of PaskaOvo.
@@ -131,19 +140,20 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Adds an event listener to the document for keyup events if it is not already added.
+	 * Creates an event listener to the instance for keyup events if it is not already created.
 	*/
 	public listen() {
 		if (this.keyListener !== undefined) {
 			this.stop();
 		}
+
 		this.keyListener = this.createHandleKeyEvent(this.easterEggs);
 
 		document.addEventListener("keyup", this.keyListener);
 	}
 
 	/**
-	 * Removes the event listener from the document.
+	 * Removes the event listener from the instance.
 	 * */
 	public stop() {
 		if (this.keyListener) {

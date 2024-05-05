@@ -1,6 +1,12 @@
 # Paska Ovo
 
+![Paska](./img/paska-logo.png)
+
 A simple javascript library for adding easter eggs to web pages
+
+[![JSR](https://jsr.io/badges/@egamagz/paska-ovo)](https://jsr.io/@egamagz/paska-ovo)
+![GitHub License](https://img.shields.io/github/license/egamagz/paska-ovo)
+![GitHub Release](https://img.shields.io/github/v/release/egamagz/paska-ovo)
 
 ## Installation
 
@@ -83,7 +89,7 @@ paskaOvo.listen();
 
 ## Credits
 
-Inspired by the project [Egg.js](https://github.com/mikeflynn/egg.js). Created by [EGAMAGZ](https://github.com/EGAMAGZ).
+Inspired by the project [Egg.js](https://github.com/mikeflynn/egg.js) and [La Velada Web](https://github.com/midudev/la-velada-web-oficial). Created by [EGAMAGZ](https://github.com/EGAMAGZ).
 
 ## License
 

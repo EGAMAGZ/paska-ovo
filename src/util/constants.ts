@@ -1,9 +1,13 @@
 /**
+ * @module
  * This module contains constants used in the project.
  * 
- * @module
  */
 
+/**
+ *  A map of special key names to their corresponding standardized key codes.
+ *  This is a constant record type to ensure immutability.
+ */  
 export const SPECIAL_KEYS: Record<string, string> = {
     "slash": "/",
     "up": "ArrowUp",
