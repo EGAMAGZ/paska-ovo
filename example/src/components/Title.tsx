@@ -1,11 +1,10 @@
 interface Props {
-    spinning: boolean
     konami: boolean
 }
 
-export default function Title({ spinning, konami }: Props) {
+export default function Title({ konami }: Props) {
     return (
-        <svg width="100%" height="100%" viewBox="0 0 33 11" class={`transition-all ${spinning ? "animate-spin" : ""}`} alt="Paska Ovo Logo">
+        <svg width="100%" height="100%" viewBox="0 0 33 11" alt="Paska Ovo Logo">
             {/* P */}
             <g fill="black">
                 <rect x="0" y="0" width="1" height="1"></rect>
