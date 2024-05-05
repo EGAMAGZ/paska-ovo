@@ -53,7 +53,7 @@ export default function EasterEgg() {
     return (
         <div class="w-screen h-screen bg-red-300 flex flex-col justify-center items-center relative">
             <div class={`w-96 h-48 transition-all ${easterEggStatus.value === EasterEggStatus.Awesome ? "rainbow-border p-2" : ""} ${easterEggStatus.value === EasterEggStatus.BarrelRoll ? "animate-spin" : ""}`}>
-                <Title konami={easterEggStatus.value === EasterEggStatus.Konami} />
+                <Title showKonami={easterEggStatus.value === EasterEggStatus.Konami} />
             </div>
             <span class="text-3xl font-thin">Find the easter eggs!</span>
         </div>
