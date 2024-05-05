@@ -1,6 +1,6 @@
 {
   "name": "@egamagz/paska-ovo",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "lock": false,
   "exports": "./mod.ts",
   "compilerOptions": {
