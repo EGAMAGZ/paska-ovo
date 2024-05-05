@@ -1,12 +1,13 @@
 ---
 import EasterEgg from "@/components/EasterEgg";
 import Layout from "@/layouts/Layout.astro";
+import { Content as Readme } from "@/../../README.md";
 ---
 
 <Layout>
 	<EasterEgg client:idle slot="header" />
 
 	<Fragment slot="content">
-		<h1 class="text-4xl">Paska Ovo</h1>
+		<Readme />
 	</Fragment>
 </Layout>

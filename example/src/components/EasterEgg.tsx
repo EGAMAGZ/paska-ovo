@@ -26,7 +26,7 @@ export default function EasterEgg() {
                 tag: "Barrel Roll"
             })
             .addCode({
-                code: ["b", "a"],
+                code: HistoricalCodes.Konami,
                 onFound: () => {
                     easterEggStatus.value = easterEggStatus.peek() === EasterEggStatus.Konami ? EasterEggStatus.None : EasterEggStatus.Konami
                 },
