@@ -4,11 +4,48 @@
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width" />
         <meta name="generator" content={Astro.generator} />
+        <meta
+            name="description"
+            content="Paska Ovo: A simple javascript library for adding easter eggs to web pages."
+        />
         <title>Paska Ovo</title>
     </head>
     <body>
-        <main class="container mx-auto px-4 lg:px-0 py-2">
-            <slot />
+        <slot name="header" />
+        <main class="container mx-auto px-2 py-4 lg:px-0">
+            <slot name="content" />
         </main>
     </body>
 </html>
+
+<style is:global>
+    .rainbow-border {
+        --angle: 0deg;
+        border: 0.5em solid;
+        border-image: conic-gradient(
+                from var(--angle),
+                red,
+                yellow,
+                lime,
+                aqua,
+                blue,
+                magenta,
+                red
+            )
+            1;
+
+        animation: 3s rotate linear infinite;
+    }
+
+    @keyframes rotate {
+        to {
+            --angle: 360deg;
+        }
+    }
+
+    @property --angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+    }
+</style>
