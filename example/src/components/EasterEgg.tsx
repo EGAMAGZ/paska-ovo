@@ -1,4 +1,4 @@
-import { useSignal, useSignalEffect, useComputed } from "@preact/signals";
+import { useSignal, useSignalEffect } from "@preact/signals";
 import { PaskaOvo, HistoricalCodes } from "@/../../mod";
 import Title from "./Title";
 
