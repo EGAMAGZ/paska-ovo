@@ -1,8 +1,8 @@
 {
   "name": "@egamagz/paska-ovo",
   "version": "1.0.0",
-  "lock": false,
   "exports": "./mod.ts",
+  "lock": false,
   "compilerOptions": {
     "lib": [
       "dom",
