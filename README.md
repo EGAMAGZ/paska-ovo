@@ -38,33 +38,46 @@ Check the [JSR page for more details](https://jsr.io/@egamagz/paska-ovo).
 import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
 
 const paskaOvo = new PaskaOvo()
-  .addCallback((easterEgg) => {
-    console.log("Actual easter egg:", easterEgg.tag);
-    console.log("Easter egg's code:", easterEgg.code);
-  })
-  .addCode(
-    HistoricalCodes.Iddqd,
-    () => {
-      alert("God Mode");
+  .addCode({
+    code: HistoricalCodes.BarrelRoll,
+    onFound: () => {
+      //...
     },
-    "Doom",
-  )
-  .addCode("left,up,right,down", () => {
-    alert("Do a Barrel Roll");
-  }, "Barrel Roll");
-
-// Listen to keyboard events
-document.getElementById("add-easter-egg")
-  .addEventListener("click", () => {
-    paskaOvo.listen();
+    onFinish() {
+      // ...
+    },
+    duration: 1000,
+    tag: "Barrel Roll"
+  })
+  .addCode({
+    code: HistoricalCodes.Konami,
+    onFound: () => {
+      // ...
+    },
+    tag: "Konami"
+  })
+  .addCode({
+    code: ["a", "w", "e", "s", "o", "m", "e"],
+    onFound: () => {
+      // ...
+    },
+    tag: "Awesome"
+  })
+  .addCallback((easterEgg) => {
+    alert(`You found the easter egg: ${easterEgg.tag}`)
   });
 
+// Listen to keyboard events
+document.getElementById("add-easter-egg").addEventListener("click", () => {
+  paskaOvo.listen();
+});
+
 // Stop listening to keyboard events
-document.getElementById("remove-easter-egg")
+document
+  .getElementById("remove-easter-egg")
   .addEventListener("click", () => {
     paskaOvo.stop();
   });
-
 ```
 
 Alternatively, it's possible to define the easter egg using the constructor:
@@ -72,19 +85,18 @@ Alternatively, it's possible to define the easter egg using the constructor:
 ```typescript
 import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
 
-const paskaOvo = new PaskaOvo(
-  HistoricalCodes.Konami,
-  () => {
-    alert("Gradius");
+ const paskaOvo = new PaskaOvo({
+  code: HistoricalCodes.Konami,
+  onFound: () => {
+   alert("Gradius");
   },
-  "konami-code",
-)
-  .addCallback((easterEgg) => {
-    console.log("Actual easter egg:", easterEgg.tag);
-    console.log("Easter egg's code:", easterEgg.code);
-  });
+  tag: "konami-code",
+ }).addCallback((easterEgg) => {
+  console.log("Actual easter egg:", easterEgg.tag);
+  console.log("Easter egg's code:", easterEgg.code);
+ });
 
-paskaOvo.listen();
+ paskaOvo.listen();
 ```
 
 Check the [example](https://egamagz.github.io/paska-ovo/) with [source code](https://github.com/EGAMAGZ/paska-ovo/tree/master/example).
