@@ -27,7 +27,7 @@ export type EasterEgg = {
      * */
     onFinish?: () => void,
     /**
-     * Duration of the easter egg. Once it is finished, onFinish will be called. 
+     * Duration in milliseconds of the easter egg. Once it is finished, onFinish will be called. 
      * */
     duration?: number,
 };

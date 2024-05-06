@@ -10,7 +10,54 @@ import { codeToChars } from "./util/code.ts";
 
 /**
  * Class that is used to manage easter eggs.
- */
+ * 
+ * @example
+ * ```typescript
+ * import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
+ *
+ * const paskaOvo = new PaskaOvo()
+ *	.addCode({
+ *		code: HistoricalCodes.BarrelRoll,
+ *		onFound: () => {
+ *		//...
+ *		},
+ *		onFinish() {
+ *		// ...
+ *		},
+ *		duration: 1000,
+ *		tag: "Barrel Roll"
+ *	})
+ *	.addCode({
+ *		code: HistoricalCodes.Konami,
+ *		onFound: () => {
+ *		// ...
+ *		},
+ *		tag: "Konami"
+ *	})
+ *	.addCode({
+ *		code: ["a", "w", "e", "s", "o", "m", "e"],
+ *		onFound: () => {
+ *		// ...
+ *		},
+ *		tag: "Awesome"
+ *	})
+ *	.addCallback((easterEgg) => {
+ *		alert(`You found the easter egg: ${easterEgg.tag}`)
+ *	});
+ *
+ *	// Listen to keyboard events
+ *	document.getElementById("add-easter-egg").addEventListener("click", () => {
+ *		paskaOvo.listen();
+ *	});
+ *
+ *	// Stop listening to keyboard events
+ *	document
+ *		.getElementById("remove-easter-egg")
+ *		.addEventListener("click", () => {
+ *			paskaOvo.stop();
+ *		});
+ *```
+ * */
 export class PaskaOvo {
 	/**
 	 * List of easter eggs registered.
