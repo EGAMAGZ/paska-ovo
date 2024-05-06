@@ -87,6 +87,8 @@ const paskaOvo = new PaskaOvo(
 paskaOvo.listen();
 ```
 
+Check the [example](https://egamagz.github.io/paska-ovo/) with [source code](https://github.com/EGAMAGZ/paska-ovo/tree/master/example).
+
 ## Credits
 
 Inspired by the project [Egg.js](https://github.com/mikeflynn/egg.js) and [La Velada Web](https://github.com/midudev/la-velada-web-oficial). Created by [EGAMAGZ](https://github.com/EGAMAGZ).
