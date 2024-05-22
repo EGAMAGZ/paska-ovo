@@ -21,4 +21,3 @@ export const SPECIAL_KEYS: Record<string, string> = {
     "tab": "Tab",
     "esc": "Escape",
 } as const;
-
