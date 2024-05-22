@@ -112,19 +112,14 @@ export class PaskaOvo {
 	 * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
 	 */
 	private handleKeyEvent(event: KeyboardEvent, easterEggs: EasterEgg[]) {
-		if (easterEggs.length === 0) {
-			return;
-		}
-
 		const { key } = event;
-
-		easterEggs.forEach((easterEgg) => {
+		for (const easterEgg of easterEggs) {
 			const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
 			const actualCode = easterEgg.code[actualCodePosition];
 
 			if (key !== actualCode) {
 				this.easterEggState[easterEgg.tag] = 0;
-				return;
+				continue;
 			}
 
 			const nextCodePosition = actualCodePosition + 1;
@@ -136,7 +131,7 @@ export class PaskaOvo {
 			} else {
 				this.easterEggState[easterEgg.tag] = nextCodePosition;
 			}
-		});
+		}
 	}
 
 	/**
