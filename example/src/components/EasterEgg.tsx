@@ -33,6 +33,13 @@ export default function EasterEgg() {
                 tag: "Konami"
             })
             .addCode({
+                code: ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a", "c"],
+                onFound: () => {
+                    alert("Nothing to show here... Sorry :(")
+                },
+                tag: "Konami+C"
+            })
+            .addCode({
                 code: ["a", "w", "e", "s", "o", "m", "e"],
                 onFound: () => {
                     easterEggStatus.value = easterEggStatus.peek() === EasterEggStatus.Awesome ? EasterEggStatus.None : EasterEggStatus.Awesome

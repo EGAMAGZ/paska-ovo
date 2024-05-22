@@ -7,10 +7,52 @@
 /**
  * Type with the properties of an easter egg.
  * 
+ * @example
+ * A simple easter egg:
+ * ```typescript
+ * import { EasterEgg } from "@egamagz/paska-ovo";
+ * 
+ * const easterEgg: EasterEgg = {
+ *  code: ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"],
+ *  onFound: () => {
+ *    // Do something when the easter egg is found
+ *  },
+ *  tag: "Konami",
+ * }
+ * ```
+ * 
+ * @example 
+ * An easter egg with a duration:
+ * ```typescript
+ * const easterEgg: EasterEgg = {
+ *  code: ["up", "right", "down", "left"],
+ *  onFound: () => {
+ *      // Do something when the easter egg is found
+ *  },
+ *  onFinish() {
+ *      // Do something when the duration of the easter egg is over
+ *  },
+ *  duration: 1000,
+ *  tag: "Barrel Roll"
+ * }
+ * ```
  */
 export type EasterEgg = {
     /**
-     * Sequence of keys that will trigger the easter egg.
+     * Key sequence that will activate the easter egg. The code can contain 
+     * letters (which will only be detected as lowercase), numbers and navigation 
+     * and control keys. The navigation and control keys are indicated by the following nomenclature:
+     * * `up`: `ArrowUp`
+     * * `down`: `ArrowDown`
+     * * `left`: `ArrowLeft`
+     * * `right`: `ArrowRight`
+     * * `enter`: `Enter`
+     * * `space`: `Space`
+     * * `ctrl`: `Control`
+     * * `alt`: `Alt`
+     * * `tab`: `Tab`
+     * * `esc`: `Escape`
+     * * `slash`: `/`
      */
     code: string[],
     /**
