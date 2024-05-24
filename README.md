@@ -5,6 +5,7 @@
 A simple javascript library for adding easter eggs to web pages
 
 [![JSR](https://jsr.io/badges/@egamagz/paska-ovo)](https://jsr.io/@egamagz/paska-ovo)
+[![JSR Score](https://jsr.io/badges/@egamagz/paska-ovo/score)](https://jsr.io/@egamagz/paska-ovo/score)
 ![GitHub License](https://img.shields.io/github/license/egamagz/paska-ovo)
 ![GitHub Release](https://img.shields.io/github/v/release/egamagz/paska-ovo)
 
