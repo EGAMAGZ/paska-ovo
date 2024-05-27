@@ -7,7 +7,7 @@
 /**
  *  A map of special key names to their corresponding standardized key codes.
  *  This is a constant record type to ensure immutability.
- */  
+ */
 export const SPECIAL_KEYS: Record<string, string> = {
     "slash": "/",
     "up": "ArrowUp",
@@ -21,3 +21,13 @@ export const SPECIAL_KEYS: Record<string, string> = {
     "tab": "Tab",
     "esc": "Escape",
 } as const;
+
+/**
+ * List of tag input elements.
+ */
+
+export const INPUT_ELEMENTS = [
+    "textarea",
+    "input",
+    "select"
+];
