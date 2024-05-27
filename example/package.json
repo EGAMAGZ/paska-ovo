@@ -10,18 +10,18 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.5.10",
-    "@astrojs/preact": "^3.2.0",
+    "@astrojs/check": "^0.7.0",
+    "@astrojs/preact": "^3.3.0",
     "@astrojs/tailwind": "^5.1.0",
     "@preact/signals": "^1.2.3",
     "@preact/signals-core": "^1.6.0",
-    "@tabler/icons-preact": "^3.3.0",
-    "astro": "^4.6.3",
-    "preact": "^10.20.2",
+    "@tabler/icons-preact": "^3.5.0",
+    "astro": "^4.9.2",
+    "preact": "^10.22.0",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
-    "shiki": "^1.4.0"
+    "shiki": "^1.6.0"
   }
 }
