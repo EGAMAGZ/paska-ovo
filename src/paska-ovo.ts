@@ -7,6 +7,7 @@
 
 import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
 import { codeToChars } from "./util/code.ts";
+import { isInputElement } from "./util/dom.ts";
 
 /**
  * Class that is used to manage easter eggs.
@@ -106,13 +107,18 @@ export class PaskaOvo {
 	}
 
 	/**
-	 * Handles the key event for the current instance of PaskaOvo.
+	 * Handles the key event for the current instance of PaskaOvo. In case the 
+	 * active element is an input element (select, input or textarea), it will 
+	 * not handle the key event to avoid triggering an easter egg.
 	 *
 	 * @param {KeyboardEvent} event - The key event to handle.
 	 * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
 	 */
 	private handleKeyEvent(event: KeyboardEvent, easterEggs: EasterEgg[]) {
 		const { key } = event;
+
+		if (isInputElement(document.activeElement)) return;
+
 		for (const easterEgg of easterEggs) {
 			const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
 			const actualCode = easterEgg.code[actualCodePosition];
