@@ -1,6 +1,6 @@
 {
   "name": "@egamagz/paska-ovo",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "exports": "./mod.ts",
   "lock": false,
   "compilerOptions": {
@@ -12,10 +12,18 @@
     ]
   },
   "imports": {
-    "@std/testing": "https://deno.land/std@0.223.0/assert/mod.ts",
-    "@/": "./src/"
+    "@/": "./src/",
+    "@astral/astral": "jsr:@astral/astral@^0.4.2",
+    "@std/testing": "https://deno.land/std@0.223.0/assert/mod.ts"
   },
   "tasks": {
     "doc": "deno doc --html --name='Paska Ovo' src"
+  },
+  "publish": {
+	"exclude" : [
+		"example",
+		"test",
+		".github"
+	]
   }
 }
