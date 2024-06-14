@@ -19,10 +19,10 @@
     "doc": "deno doc --html --name='Paska Ovo' src"
   },
   "publish": {
-	"exclude" : [
-		"example",
-		"test",
-		".github"
-	]
+    "exclude": [
+      "example",
+      "test",
+      ".github"
+    ]
   }
 }
