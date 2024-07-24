@@ -1,8 +1,8 @@
-/** 
+/**
  * @module
- * 
+ *
  * This module contains utility functions for converting key codes into character codes or special key names.
- * */
+ */
 import { SPECIAL_KEYS } from "../util/constants.ts";
 
 /**
@@ -12,13 +12,13 @@ import { SPECIAL_KEYS } from "../util/constants.ts";
  * @return {string[]} - List of corresponding character codes or special key names.
  */
 export function codeToChars(code: string[]): string[] {
-    return code
-        .map(c => c.trim().toLowerCase())
-        .filter(c => c !== "")
-        .map(c => {
-            if (Object.keys(SPECIAL_KEYS).includes(c)) {
-                return SPECIAL_KEYS[c];
-            }
-            return c;
-        });
+  return code
+    .map((c) => c.trim().toLowerCase())
+    .filter((c) => c !== "")
+    .map((c) => {
+      if (Object.keys(SPECIAL_KEYS).includes(c)) {
+        return SPECIAL_KEYS[c];
+      }
+      return c;
+    });
 }
