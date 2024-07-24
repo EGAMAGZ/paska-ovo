@@ -1,5 +1,5 @@
 import { useSignal, useSignalEffect } from "@preact/signals";
-import { PaskaOvo, HistoricalCodes } from "@/../../mod";
+import { PaskaOvo, HistoricalCodes, type EasterEgg } from "@/../../mod";
 import Title from "./Title";
 
 enum EasterEggStatus {
@@ -14,7 +14,7 @@ export default function EasterEgg() {
 
     useSignalEffect(() => {
         const paskaOvo = new PaskaOvo()
-            .addCode({
+            .addEasterEgg({
                 code: HistoricalCodes.BarrelRoll,
                 onFound: () => {
                     easterEggStatus.value = EasterEggStatus.BarrelRoll
@@ -25,28 +25,28 @@ export default function EasterEgg() {
                 duration: 1000,
                 tag: "Barrel Roll"
             })
-            .addCode({
+            .addEasterEgg({
                 code: HistoricalCodes.Konami,
                 onFound: () => {
                     easterEggStatus.value = easterEggStatus.peek() === EasterEggStatus.Konami ? EasterEggStatus.None : EasterEggStatus.Konami
                 },
                 tag: "Konami"
             })
-            .addCode({
+            .addEasterEgg({
                 code: ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a", "c"],
                 onFound: () => {
                     alert("Nothing to show here... Sorry :(")
                 },
                 tag: "Konami+C"
             })
-            .addCode({
+            .addEasterEgg({
                 code: ["a", "w", "e", "s", "o", "m", "e"],
                 onFound: () => {
                     easterEggStatus.value = easterEggStatus.peek() === EasterEggStatus.Awesome ? EasterEggStatus.None : EasterEggStatus.Awesome
                 },
                 tag: "Awesome"
             })
-            .addCallback((easterEgg) => {
+            .addCallback((easterEgg: EasterEgg) => {
                 alert(`You found the easter egg: ${easterEgg.tag}`)
             });
 

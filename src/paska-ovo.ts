@@ -99,9 +99,15 @@ export class PaskaOvo {
    * @return {this} Current instance of PaskaOvo.
    */
   public addEasterEgg(easterEgg: EasterEgg): this {
+    const code = codeToChars(easterEgg.code);
+
+    if (code.length < 1) {
+      throw new Error(`Error executing easter egg ${easterEgg.tag}: The code for the easter egg must contain at least one non-empty character.`);
+    }
+
     this.easterEggs.push({
       ...easterEgg,
-      code: codeToChars(easterEgg.code),
+      code,
     });
     return this;
   }
