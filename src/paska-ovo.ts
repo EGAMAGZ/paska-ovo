@@ -17,7 +17,7 @@ import { isInputElement } from "./util/dom.ts";
  * import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
  *
  * const paskaOvo = new PaskaOvo()
- * 	.addCode({
+ * 	.addEasterEgg({
  * 		code: HistoricalCodes.BarrelRoll,
  * 		onFound: () => {
  * 		//...
@@ -28,14 +28,14 @@ import { isInputElement } from "./util/dom.ts";
  * 		duration: 1000,
  * 		tag: "Barrel Roll"
  * 	})
- * 	.addCode({
+ * 	.addEasterEgg({
  * 		code: HistoricalCodes.Konami,
  * 		onFound: () => {
  * 		// ...
  * 		},
  * 		tag: "Konami"
  * 	})
- * 	.addCode({
+ * 	.addEasterEgg({
  * 		code: ["a", "w", "e", "s", "o", "m", "e"],
  * 		onFound: () => {
  * 		// ...
@@ -87,7 +87,7 @@ export class PaskaOvo {
    */
   constructor(easterEgg?: EasterEgg) {
     if (easterEgg) {
-      this.addCode(easterEgg);
+      this.addEasterEgg(easterEgg);
     }
   }
 
@@ -98,7 +98,7 @@ export class PaskaOvo {
    * @param {EasterEgg} easterEgg - The easter egg to add.
    * @return {this} Current instance of PaskaOvo.
    */
-  public addCode(easterEgg: EasterEgg): this {
+  public addEasterEgg(easterEgg: EasterEgg): this {
     this.easterEggs.push({
       ...easterEgg,
       code: codeToChars(easterEgg.code),
