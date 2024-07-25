@@ -1,7 +1,6 @@
 /**
  * @module
  * This module contains constants used in the project.
- * 
  */
 
 /**
@@ -9,17 +8,17 @@
  *  This is a constant record type to ensure immutability.
  */
 export const SPECIAL_KEYS: Record<string, string> = {
-    "slash": "/",
-    "up": "ArrowUp",
-    "down": "ArrowDown",
-    "left": "ArrowLeft",
-    "right": "ArrowRight",
-    "enter": "Enter",
-    "space": "Space",
-    "ctrl": "Control",
-    "alt": "Alt",
-    "tab": "Tab",
-    "esc": "Escape",
+  "slash": "/",
+  "up": "ArrowUp",
+  "down": "ArrowDown",
+  "left": "ArrowLeft",
+  "right": "ArrowRight",
+  "enter": "Enter",
+  "space": "Space",
+  "ctrl": "Control",
+  "alt": "Alt",
+  "tab": "Tab",
+  "esc": "Escape",
 } as const;
 
 /**
@@ -27,7 +26,7 @@ export const SPECIAL_KEYS: Record<string, string> = {
  */
 
 export const INPUT_ELEMENTS = [
-    "textarea",
-    "input",
-    "select"
+  "textarea",
+  "input",
+  "select",
 ];

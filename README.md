@@ -39,7 +39,7 @@ Check the [JSR page for more details](https://jsr.io/@egamagz/paska-ovo).
 import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
 
 const paskaOvo = new PaskaOvo()
-  .addCode({
+  .addEasterEgg({
     code: HistoricalCodes.BarrelRoll,
     onFound: () => {
       //...
@@ -50,14 +50,14 @@ const paskaOvo = new PaskaOvo()
     duration: 1000,
     tag: "Barrel Roll"
   })
-  .addCode({
+  .addEasterEgg({
     code: HistoricalCodes.Konami,
     onFound: () => {
       // ...
     },
     tag: "Konami"
   })
-  .addCode({
+  .addEasterEgg({
     code: ["a", "w", "e", "s", "o", "m", "e"],
     onFound: () => {
       // ...

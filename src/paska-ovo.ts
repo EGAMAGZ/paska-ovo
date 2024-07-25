@@ -1,7 +1,7 @@
-/**	
+/**
  * @module
- * 
- * This module contains the PaskaOvo class and its methods. It is the entry 
+ *
+ * This module contains the PaskaOvo class and its methods. It is the entry
  * point of the library.
  */
 
@@ -11,202 +11,203 @@ import { isInputElement } from "./util/dom.ts";
 
 /**
  * Class that is used to manage easter eggs.
- * 
+ *
  * @example
  * ```typescript
  * import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
  *
  * const paskaOvo = new PaskaOvo()
- *	.addCode({
- *		code: HistoricalCodes.BarrelRoll,
- *		onFound: () => {
- *		//...
- *		},
- *		onFinish() {
- *		// ...
- *		},
- *		duration: 1000,
- *		tag: "Barrel Roll"
- *	})
- *	.addCode({
- *		code: HistoricalCodes.Konami,
- *		onFound: () => {
- *		// ...
- *		},
- *		tag: "Konami"
- *	})
- *	.addCode({
- *		code: ["a", "w", "e", "s", "o", "m", "e"],
- *		onFound: () => {
- *		// ...
- *		},
- *		tag: "Awesome"
- *	})
- *	.addCallback((easterEgg) => {
- *		alert(`You found the easter egg: ${easterEgg.tag}`)
- *	});
+ * 	.addEasterEgg({
+ * 		code: HistoricalCodes.BarrelRoll,
+ * 		onFound: () => {
+ * 		//...
+ * 		},
+ * 		onFinish() {
+ * 		// ...
+ * 		},
+ * 		duration: 1000,
+ * 		tag: "Barrel Roll"
+ * 	})
+ * 	.addEasterEgg({
+ * 		code: HistoricalCodes.Konami,
+ * 		onFound: () => {
+ * 		// ...
+ * 		},
+ * 		tag: "Konami"
+ * 	})
+ * 	.addEasterEgg({
+ * 		code: ["a", "w", "e", "s", "o", "m", "e"],
+ * 		onFound: () => {
+ * 		// ...
+ * 		},
+ * 		tag: "Awesome"
+ * 	})
+ * 	.addCallback((easterEgg) => {
+ * 		alert(`You found the easter egg: ${easterEgg.tag}`)
+ * 	});
  *
- *	// Listen to keyboard events
- *	document.getElementById("add-easter-egg").addEventListener("click", () => {
- *		paskaOvo.listen();
- *	});
+ * 	// Listen to keyboard events
+ * 	document.getElementById("add-easter-egg").addEventListener("click", () => {
+ * 		paskaOvo.listen();
+ * 	});
  *
- *	// Stop listening to keyboard events
- *	document
- *		.getElementById("remove-easter-egg")
- *		.addEventListener("click", () => {
- *			paskaOvo.stop();
- *		});
- *```
- * */
+ * 	// Stop listening to keyboard events
+ * 	document
+ * 		.getElementById("remove-easter-egg")
+ * 		.addEventListener("click", () => {
+ * 			paskaOvo.stop();
+ * 		});
+ * ```
+ */
 export class PaskaOvo {
-	/**
-	 * List of easter eggs registered.
-	 */
-	private easterEggs: EasterEgg[] = [];
+  /**
+   * List of easter eggs registered.
+   */
+  private easterEggs: EasterEgg[] = [];
 
-	/**
-	 * List of callbacks registered for each easter egg when it is found.
-	 * */
-	private callbacks: Callback[] = [];
+  /**
+   * List of callbacks registered for each easter egg when it is found.
+   */
+  private callbacks: Callback[] = [];
 
-	/**
-	 * State of each key pressed for each easter egg.
-	 */
-	private easterEggState: EasterEggState = {};
+  /**
+   * State of each key pressed for each easter egg.
+   */
+  private easterEggState: EasterEggState = {};
 
-	/**
-	 * The key listener for the current instance of PaskaOvo.
-	 * */
-	private keyListener?: ((event: KeyboardEvent) => void);
+  /**
+   * The key listener for the current instance of PaskaOvo.
+   */
+  private keyListener?: (event: KeyboardEvent) => void;
 
-	/**
-	 * Constructs a new instance of the class with optional parameters for an easter egg.
-	 *
-	 * @param {EasterEgg} easterEgg - The easter egg to add.
-	 */
-	constructor(easterEgg?: EasterEgg) {
-		if (easterEgg) {
-			this.addCode(easterEgg);
-		}
-	}
+  /**
+   * Constructs a new instance of the class with optional parameters for an easter egg.
+   *
+   * @param {EasterEgg} easterEgg - The easter egg to add.
+   */
+  constructor(easterEgg?: EasterEgg) {
+    if (easterEgg) {
+      this.addEasterEgg(easterEgg);
+    }
+  }
 
-	/**
-	 * Adds an easter egg to the easterEggs array of the current instance of 
-	 * PaskaOvo.
-	 *
-	 * @param {EasterEgg} easterEgg - The easter egg to add.
-	 * @return {this} Current instance of PaskaOvo.
-	 */
-	public addCode(easterEgg: EasterEgg): this {
-		this.easterEggs.push({
-			...easterEgg,
-			code: codeToChars(easterEgg.code),
-		});
-		return this;
-	}
+  /**
+   * Adds an easter egg to the easterEggs array of the current instance of
+   * PaskaOvo.
+   *
+   * @param {EasterEgg} easterEgg - The easter egg to add.
+   * @return {this} Current instance of PaskaOvo.
+   */
+  public addEasterEgg(easterEgg: EasterEgg): this {
+    const code = codeToChars(easterEgg.code);
 
-	/**
-	 * Handles the key event for the current instance of PaskaOvo. In case the 
-	 * active element is an input element (select, input or textarea), it will 
-	 * not handle the key event to avoid triggering an easter egg.
-	 *
-	 * @param {KeyboardEvent} event - The key event to handle.
-	 * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
-	 */
-	private handleKeyEvent(event: KeyboardEvent, easterEggs: EasterEgg[]) {
-		const { key } = event;
+    if (code.length < 1) {
+      throw new Error(`Error executing easter egg ${easterEgg.tag}: The code for the easter egg must contain at least one non-empty character.`);
+    }
 
-		if (isInputElement(document.activeElement)) return;
+    this.easterEggs.push({
+      ...easterEgg,
+      code,
+    });
+    return this;
+  }
 
-		for (const easterEgg of easterEggs) {
-			const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
-			const actualCode = easterEgg.code[actualCodePosition];
+  /**
+   * Handles the key event for the current instance of PaskaOvo. In case the
+   * active element is an input element (select, input or textarea), it will
+   * not handle the key event to avoid triggering an easter egg.
+   *
+   * @param {KeyboardEvent} event - The key event to handle.
+   * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
+   */
+  private handleKeyEvent(event: KeyboardEvent) {
+    const { key } = event;
 
-			if (key !== actualCode) {
-				this.easterEggState[easterEgg.tag] = 0;
-				continue;
-			}
+    if (isInputElement(document.activeElement)) return;
 
-			const nextCodePosition = actualCodePosition + 1;
+    this.easterEggs.forEach((easterEgg: EasterEgg) => {
 
-			if (nextCodePosition === easterEgg.code.length) {
-				this.executeEasterEgg(easterEgg);
+      const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
+      const actualCode = easterEgg.code[actualCodePosition];
 
-				this.easterEggState[easterEgg.tag] = 0;
-			} else {
-				this.easterEggState[easterEgg.tag] = nextCodePosition;
-			}
-		}
-	}
+      if (key !== actualCode) {
+        this.easterEggState[easterEgg.tag] = 0;
+        return;
+      }
 
-	/**
-	 * Executes an easter egg, and calls its callbacks. After the easter egg is 
-	 * executed, it will execute its onFinish callback if it has one. If the 
-	 * easter egg also has a duration, the onFinish callback will be executed 
-	 * after the duration.
-	 * 	
-	 * @param {EasterEgg} easterEgg - The easter egg to execute.
-	 */
-	private executeEasterEgg(easterEgg: EasterEgg) {
-		easterEgg.onFound();
+      const nextCodePosition = actualCodePosition + 1;
 
-		this.callbacks.forEach((callback) => callback(easterEgg));
+      if (nextCodePosition === easterEgg.code.length) {
+        this.executeEasterEgg(easterEgg);
 
-		if (easterEgg.onFinish) {
-			if (easterEgg.duration) {
-				setTimeout(easterEgg.onFinish, easterEgg.duration);
-			} else {
-				easterEgg.onFinish();
-			}
-		}
+        this.easterEggState[easterEgg.tag] = 0;
+      } else {
+        this.easterEggState[easterEgg.tag] = nextCodePosition;
+      }
+    });
+  }
 
-	}
+  /**
+   * Executes an easter egg, and calls its callbacks. After the easter egg is
+   * executed, it will execute its onFinish callback if it has one. If the
+   * easter egg also has a duration, the onFinish callback will be executed
+   * after the duration.
+   *
+   * @param {EasterEgg} easterEgg - The easter egg to execute.
+   */
+  private executeEasterEgg(easterEgg: EasterEgg) {
+    try {
+      easterEgg.onFound();
 
-	/**
-	 * Creates a function that handles the key event.
-	 *
-	 * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
-	 * @return {(event: KeyboardEvent) => void} Function that handles the key event.
-	 */
-	private createHandleKeyEvent(easterEggs: EasterEgg[]): (event: KeyboardEvent) => void {
-		return (event: KeyboardEvent) => {
-			this.handleKeyEvent(event, easterEggs);
-		}
-	}
+      this.callbacks.forEach((callback) => callback(easterEgg));
 
-	/**
-	 * Adds a callback to list of callbacks to be called when an easter egg is found.
-	 *
-	 * @param {Callback} callback - The callback to add.
-	 * @return {this} The current instance of PaskaOvo.
-	 */
-	public addCallback(callback: Callback): this {
-		this.callbacks.push(callback);
+      if (easterEgg.onFinish) {
+        if (easterEgg.duration) {
+          setTimeout(
+            easterEgg.onFinish,
+            easterEgg.duration,
+          );
+        } else {
+          easterEgg.onFinish();
+        }
+      }
+    } catch (error) {
+      console.error(`Error executing easter egg ${easterEgg.tag}:`, error);
+    }
+  }
 
-		return this;
-	}
+  /**
+   * Adds a callback to list of callbacks to be called when an easter egg is found.
+   *
+   * @param {Callback} callback - The callback to add.
+   * @return {this} The current instance of PaskaOvo.
+   */
+  public addCallback(callback: Callback): this {
+    this.callbacks.push(callback);
 
-	/**
-	 * Creates an event listener to the instance for keyup events if it is not already created.
-	*/
-	public listen() {
-		if (this.keyListener !== undefined) {
-			this.stop();
-		}
+    return this;
+  }
 
-		this.keyListener = this.createHandleKeyEvent(this.easterEggs);
+  /**
+   * Creates an event listener to the instance for keyup events if it is not already created.
+   */
+  public listen() {
+    if (this.keyListener) {
+      this.stop();
+    }
 
-		document.addEventListener("keyup", this.keyListener);
-	}
+    this.keyListener = (event: KeyboardEvent) => this.handleKeyEvent(event);
 
-	/**
-	 * Removes the event listener from the instance.
-	 * */
-	public stop() {
-		if (this.keyListener) {
-			document.removeEventListener("keyup", this.keyListener);
-		}
-	}
+    document.addEventListener("keyup", this.keyListener);
+  }
+
+  /**
+   * Removes the event listener from the instance.
+   */
+  public stop() {
+    if (this.keyListener) {
+      document.removeEventListener("keyup", this.keyListener);
+      this.keyListener = undefined;
+    }
+  }
 }
-
