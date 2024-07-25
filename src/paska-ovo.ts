@@ -120,18 +120,19 @@ export class PaskaOvo {
    * @param {KeyboardEvent} event - The key event to handle.
    * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
    */
-  private handleKeyEvent(event: KeyboardEvent, easterEggs: EasterEgg[]) {
+  private handleKeyEvent(event: KeyboardEvent) {
     const { key } = event;
 
     if (isInputElement(document.activeElement)) return;
 
-    for (const easterEgg of easterEggs) {
+    this.easterEggs.forEach((easterEgg: EasterEgg) => {
+
       const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
       const actualCode = easterEgg.code[actualCodePosition];
 
       if (key !== actualCode) {
         this.easterEggState[easterEgg.tag] = 0;
-        continue;
+        return;
       }
 
       const nextCodePosition = actualCodePosition + 1;
@@ -143,7 +144,7 @@ export class PaskaOvo {
       } else {
         this.easterEggState[easterEgg.tag] = nextCodePosition;
       }
-    }
+    });
   }
 
   /**
@@ -176,20 +177,6 @@ export class PaskaOvo {
   }
 
   /**
-   * Creates a function that handles the key event.
-   *
-   * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
-   * @return {(event: KeyboardEvent) => void} Function that handles the key event.
-   */
-  private createHandleKeyEvent(
-    easterEggs: EasterEgg[],
-  ): (event: KeyboardEvent) => void {
-    return (event: KeyboardEvent) => {
-      this.handleKeyEvent(event, easterEggs);
-    };
-  }
-
-  /**
    * Adds a callback to list of callbacks to be called when an easter egg is found.
    *
    * @param {Callback} callback - The callback to add.
@@ -209,7 +196,7 @@ export class PaskaOvo {
       this.stop();
     }
 
-    this.keyListener = this.createHandleKeyEvent(this.easterEggs);
+    this.keyListener = (event: KeyboardEvent) => this.handleKeyEvent(event);
 
     document.addEventListener("keyup", this.keyListener);
   }
