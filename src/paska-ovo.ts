@@ -155,19 +155,23 @@ export class PaskaOvo {
    * @param {EasterEgg} easterEgg - The easter egg to execute.
    */
   private executeEasterEgg(easterEgg: EasterEgg) {
-    easterEgg.onFound();
+    try {
+      easterEgg.onFound();
 
-    this.callbacks.forEach((callback) => callback(easterEgg));
+      this.callbacks.forEach((callback) => callback(easterEgg));
 
-    if (easterEgg.onFinish) {
-      if (easterEgg.duration) {
-        setTimeout(
-          easterEgg.onFinish,
-          easterEgg.duration,
-        );
-      } else {
-        easterEgg.onFinish();
+      if (easterEgg.onFinish) {
+        if (easterEgg.duration) {
+          setTimeout(
+            easterEgg.onFinish,
+            easterEgg.duration,
+          );
+        } else {
+          easterEgg.onFinish();
+        }
       }
+    } catch (error) {
+      console.error(`Error executing easter egg ${easterEgg.tag}:`, error);
     }
   }
 
@@ -201,7 +205,7 @@ export class PaskaOvo {
    * Creates an event listener to the instance for keyup events if it is not already created.
    */
   public listen() {
-    if (this.keyListener !== undefined) {
+    if (this.keyListener) {
       this.stop();
     }
 
@@ -216,6 +220,7 @@ export class PaskaOvo {
   public stop() {
     if (this.keyListener) {
       document.removeEventListener("keyup", this.keyListener);
+      this.keyListener = undefined;
     }
   }
 }
