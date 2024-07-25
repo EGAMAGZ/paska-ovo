@@ -17,7 +17,6 @@ export default function EasterEgg() {
 		.addEasterEgg({
 			code: ["4", "1", "8"],
 			onFound: () => {
-				console.log("The execution of the easter egg also handles possible errors during the execution of the easter egg, logging any error in the console.")
 				throw new Error("418 - I'm a teapot")
 			},
 			tag: "Example"
