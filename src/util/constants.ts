@@ -30,3 +30,5 @@ export const INPUT_ELEMENTS = [
   "input",
   "select",
 ];
+
+export const DEFAULT_DURATION = 1_000;

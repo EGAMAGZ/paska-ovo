@@ -7,6 +7,7 @@
 
 import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
 import { codeToChars } from "./util/code.ts";
+import { DEFAULT_DURATION } from "./util/constants.ts";
 import { isInputElement } from "./util/dom.ts";
 
 /**
@@ -162,14 +163,10 @@ export class PaskaOvo {
       this.callbacks.forEach((callback) => callback(easterEgg));
 
       if (easterEgg.onFinish) {
-        if (easterEgg.duration) {
-          setTimeout(
-            easterEgg.onFinish,
-            easterEgg.duration,
-          );
-        } else {
-          easterEgg.onFinish();
-        }
+        setTimeout(
+          easterEgg.onFinish,
+          easterEgg.duration || DEFAULT_DURATION,
+        );
       }
     } catch (error) {
       console.error(`Error executing easter egg ${easterEgg.tag}:`, error);
