@@ -19,7 +19,7 @@ jobs:
         uses: withastro/action@v2
         with:
           path: www/
-          node-version: 22 
+          node-version: 22
           package-manager: npm@latest
 
   deploy:

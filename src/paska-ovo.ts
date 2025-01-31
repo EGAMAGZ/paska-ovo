@@ -48,14 +48,14 @@ import { isInputElement } from "./util/dom.ts";
  * 	});
  *
  * 	// Listen to keyboard events
- * 	document.getElementById("add-easter-egg").addEventListener("click", () => {
+ * 	document.getElementById("add-easter-egg")?.addEventListener("click", () => {
  * 		paskaOvo.listen();
  * 	});
  *
  * 	// Stop listening to keyboard events
  * 	document
  * 		.getElementById("remove-easter-egg")
- * 		.addEventListener("click", () => {
+ * 		?.addEventListener("click", () => {
  * 			paskaOvo.stop();
  * 		});
  * ```
@@ -81,6 +81,8 @@ export class PaskaOvo {
    */
   private keyListener?: (event: KeyboardEvent) => void;
 
+  private controller = new AbortController();
+
   /**
    * Constructs a new instance of the class with optional parameters for an easter egg.
    *
@@ -103,7 +105,9 @@ export class PaskaOvo {
     const code = codeToChars(easterEgg.code);
 
     if (code.length < 1) {
-      throw new Error(`Error executing easter egg ${easterEgg.tag}: The code for the easter egg must contain at least one non-empty character.`);
+      throw new Error(
+        `Error executing easter egg ${easterEgg.tag}: The code for the easter egg must contain at least one non-empty character.`,
+      );
     }
 
     this.easterEggs.push({
@@ -127,7 +131,6 @@ export class PaskaOvo {
     if (isInputElement(document.activeElement)) return;
 
     this.easterEggs.forEach((easterEgg: EasterEgg) => {
-
       const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
       const actualCode = easterEgg.code[actualCodePosition];
 
@@ -195,7 +198,9 @@ export class PaskaOvo {
 
     this.keyListener = (event: KeyboardEvent) => this.handleKeyEvent(event);
 
-    document.addEventListener("keyup", this.keyListener);
+    document.addEventListener("keyup", this.keyListener, {
+      signal: this.controller.signal,
+    });
   }
 
   /**
@@ -203,7 +208,7 @@ export class PaskaOvo {
    */
   public stop() {
     if (this.keyListener) {
-      document.removeEventListener("keyup", this.keyListener);
+      this.controller.abort();
       this.keyListener = undefined;
     }
   }
