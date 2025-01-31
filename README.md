@@ -48,24 +48,24 @@ const paskaOvo = new PaskaOvo()
       // ...
     },
     duration: 1000,
-    tag: "Barrel Roll"
+    tag: "Barrel Roll",
   })
   .addEasterEgg({
     code: HistoricalCodes.Konami,
     onFound: () => {
       // ...
     },
-    tag: "Konami"
+    tag: "Konami",
   })
   .addEasterEgg({
     code: ["a", "w", "e", "s", "o", "m", "e"],
     onFound: () => {
       // ...
     },
-    tag: "Awesome"
+    tag: "Awesome",
   })
   .addCallback((easterEgg) => {
-    alert(`You found the easter egg: ${easterEgg.tag}`)
+    alert(`You found the easter egg: ${easterEgg.tag}`);
   });
 
 // Listen to keyboard events
@@ -86,25 +86,28 @@ Alternatively, it's possible to define the easter egg using the constructor:
 ```typescript
 import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
 
- const paskaOvo = new PaskaOvo({
+const paskaOvo = new PaskaOvo({
   code: HistoricalCodes.Konami,
   onFound: () => {
-   alert("Gradius");
+    alert("Gradius");
   },
   tag: "konami-code",
- }).addCallback((easterEgg) => {
+}).addCallback((easterEgg) => {
   console.log("Actual easter egg:", easterEgg.tag);
   console.log("Easter egg's code:", easterEgg.code);
- });
+});
 
- paskaOvo.listen();
+paskaOvo.listen();
 ```
 
-Check the [example](https://egamagz.github.io/paska-ovo/) with [source code](https://github.com/EGAMAGZ/paska-ovo/tree/master/example).
+Check the [example](https://egamagz.github.io/paska-ovo/) with
+[source code](https://github.com/EGAMAGZ/paska-ovo/tree/master/example).
 
 ## Credits
 
-Inspired by the project [Egg.js](https://github.com/mikeflynn/egg.js) and [La Velada Web](https://github.com/midudev/la-velada-web-oficial). Created by [EGAMAGZ](https://github.com/EGAMAGZ).
+Inspired by the project [Egg.js](https://github.com/mikeflynn/egg.js) and
+[La Velada Web](https://github.com/midudev/la-velada-web-oficial). Created by
+[EGAMAGZ](https://github.com/EGAMAGZ).
 
 ## License
 

@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import preact from "@astrojs/preact";
 
@@ -6,5 +6,5 @@ import preact from "@astrojs/preact";
 export default defineConfig({
   integrations: [tailwind(), preact()],
   site: "https://egamagz.github.io",
-  base: "paska-ovo"
+  base: "paska-ovo",
 });
