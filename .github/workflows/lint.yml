@@ -2,8 +2,8 @@ name: Linting and type checking
 
 on:
   pull_request:
-    branches: 
-    - "**"
+    branches:
+      - "**"
 
   push:
     branches:
