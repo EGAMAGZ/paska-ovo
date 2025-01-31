@@ -4,8 +4,8 @@
 
 A simple javascript library for adding easter eggs to web pages
 
-[![JSR](https://jsr.io/badges/@egamagz/paska-ovo)](https://jsr.io/@egamagz/paska-ovo)
-[![JSR Score](https://jsr.io/badges/@egamagz/paska-ovo/score)](https://jsr.io/@egamagz/paska-ovo/score)
+[![JSR](https://jsr.io/badges/@paska/ovo)](https://jsr.io/@paska/ovo)
+[![JSR Score](https://jsr.io/badges/@paska/ovo/score)](https://jsr.io/@paska/ovo/score)
 ![GitHub License](https://img.shields.io/github/license/egamagz/paska-ovo)
 ![GitHub Release](https://img.shields.io/github/v/release/egamagz/paska-ovo)
 
@@ -14,29 +14,29 @@ A simple javascript library for adding easter eggs to web pages
 ### For Deno
 
 ```bash
-deno add @egamagz/paska-ovo
+deno add @paska/ovo
 ```
 
 ### For Node.js
 
 ```bash
-npx jsr add @egamagz/paska-ovo
+npx jsr add @paska/ovo
 ```
 
 ### For Bun
 
 ```bash
-bunx jsr add @egamagz/paska-ovo
+bunx jsr add @paska/ovo
 ```
 
 ### For other package managers
 
-Check the [JSR page for more details](https://jsr.io/@egamagz/paska-ovo).
+Check the [JSR page for more details](https://jsr.io/@paska/ovo).
 
 ## Example
 
 ```typescript
-import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
+import { HistoricalCodes, PaskaOvo } from "@paska/ovo";
 
 const paskaOvo = new PaskaOvo()
   .addEasterEgg({
@@ -84,7 +84,7 @@ document
 Alternatively, it's possible to define the easter egg using the constructor:
 
 ```typescript
-import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
+import { HistoricalCodes, PaskaOvo } from "@paska/ovo";
 
 const paskaOvo = new PaskaOvo({
   code: HistoricalCodes.Konami,
