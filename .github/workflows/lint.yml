@@ -31,5 +31,5 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - name: Check linting
-        run: deno fmt --check .
+      - name: Check typing
+        run: deno check --doc .

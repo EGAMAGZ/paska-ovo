@@ -48,14 +48,14 @@ import { isInputElement } from "./util/dom.ts";
  * 	});
  *
  * 	// Listen to keyboard events
- * 	document.getElementById("add-easter-egg").addEventListener("click", () => {
+ * 	document.getElementById("add-easter-egg")?.addEventListener("click", () => {
  * 		paskaOvo.listen();
  * 	});
  *
  * 	// Stop listening to keyboard events
  * 	document
  * 		.getElementById("remove-easter-egg")
- * 		.addEventListener("click", () => {
+ * 		?.addEventListener("click", () => {
  * 			paskaOvo.stop();
  * 		});
  * ```

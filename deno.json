@@ -20,9 +20,12 @@
   },
   "publish": {
     "exclude": [
-      "example",
+      "www",
       "test",
       ".github"
     ]
-  }
+  },
+  "exclude": [
+	  "www/"
+  ]
 }
