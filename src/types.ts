@@ -9,7 +9,7 @@
  * @example
  * A simple easter egg:
  * ```typescript
- * import { EasterEgg } from "@paska/ovo";
+ * import { EasterEgg } from "@egamagz/paska-ovo";
  *
  * const easterEgg: EasterEgg = {
  *  code: ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"],
