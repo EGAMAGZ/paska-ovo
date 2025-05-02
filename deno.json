@@ -16,7 +16,9 @@
     "@std/testing": "https://deno.land/std@0.223.0/assert/mod.ts"
   },
   "tasks": {
-    "doc": "deno doc --html --name='Paska Ovo' src"
+    "doc": "deno doc --html --name='Paska Ovo' src",
+    "www": "deno task --cwd=www dev",
+    "build-www": "deno task --cwd=www build"
   },
   "publish": {
     "exclude": [
@@ -27,5 +29,13 @@
   },
   "exclude": [
     "www/"
-  ]
+  ],
+  "lint": {
+    "rules": {
+      "tags": ["recommended"],
+      "include": [
+        "eqeqeq"
+      ]
+    }
+  }
 }
