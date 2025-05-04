@@ -123,7 +123,6 @@ export class PaskaOvo {
    * not handle the key event to avoid triggering an easter egg.
    *
    * @param {KeyboardEvent} event - The key event to handle.
-   * @param {EasterEgg[]} easterEggs - List of easter eggs to trigger.
    */
   private handleKeyEvent(event: KeyboardEvent) {
     const { key } = event;
