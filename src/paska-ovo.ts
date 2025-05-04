@@ -15,7 +15,7 @@ import { isInputElement } from "./util/dom.ts";
  *
  * @example
  * ```typescript
- * import { HistoricalCodes, PaskaOvo } from "@paska/ovo";
+ * import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
  *
  * const paskaOvo = new PaskaOvo()
  * 	.addEasterEgg({

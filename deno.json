@@ -1,5 +1,5 @@
 {
-  "name": "@paska/ovo",
+  "name": "@egamagz/paska-ovo",
   "version": "1.0.8",
   "exports": "./mod.ts",
   "lock": false,
