@@ -1,4 +1,11 @@
-import { INPUT_ELEMENTS } from "./constants.ts";
+/**
+ * List of tag input elements.
+ */
+const INPUT_ELEMENTS = [
+  "textarea",
+  "input",
+  "select",
+];
 
 /**
  * Checks if the given element is an input element.

@@ -4,12 +4,10 @@
  * This module contains the PaskaOvo class and its methods. It is the entry
  * point of the library.
  */
-
 import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
-import { codeToChars } from "./util/code.ts";
-import { DEFAULT_DURATION } from "./util/constants.ts";
+import { codeToChars, validateCode } from "./util/code.ts";
 import { isInputElement } from "./util/dom.ts";
-
+const DEFAULT_DURATION = 1_000;
 /**
  * Class that is used to manage easter eggs.
  *
@@ -65,24 +63,19 @@ export class PaskaOvo {
    * List of easter eggs registered.
    */
   private easterEggs: EasterEgg[] = [];
-
   /**
    * List of callbacks registered for each easter egg when it is found.
    */
   private callbacks: Callback[] = [];
-
   /**
    * State of each key pressed for each easter egg.
    */
   private easterEggState: EasterEggState = {};
-
   /**
    * The key listener for the current instance of PaskaOvo.
    */
   private keyListener?: (event: KeyboardEvent) => void;
-
   private controller = new AbortController();
-
   /**
    * Constructs a new instance of the class with optional parameters for an easter egg.
    *
@@ -93,7 +86,6 @@ export class PaskaOvo {
       this.addEasterEgg(easterEgg);
     }
   }
-
   /**
    * Adds an easter egg to the easterEggs array of the current instance of
    * PaskaOvo.
@@ -102,13 +94,8 @@ export class PaskaOvo {
    * @return {this} Current instance of PaskaOvo.
    */
   public addEasterEgg(easterEgg: EasterEgg): this {
-    const code = codeToChars(easterEgg.code);
-
-    if (code.length < 1) {
-      throw new Error(
-        `Error executing easter egg ${easterEgg.tag}: The code for the easter egg must contain at least one non-empty character.`,
-      );
-    }
+    const validCodes = validateCode(easterEgg.code, easterEgg.tag);
+    const code = codeToChars(validCodes);
 
     this.easterEggs.push({
       ...easterEgg,
@@ -116,7 +103,6 @@ export class PaskaOvo {
     });
     return this;
   }
-
   /**
    * Handles the key event for the current instance of PaskaOvo. In case the
    * active element is an input element (select, input or textarea), it will
@@ -125,6 +111,7 @@ export class PaskaOvo {
    * @param {KeyboardEvent} event - The key event to handle.
    */
   private handleKeyEvent(event: KeyboardEvent) {
+
     const { key } = event;
 
     if (isInputElement(document.activeElement)) return;
@@ -132,24 +119,19 @@ export class PaskaOvo {
     this.easterEggs.forEach((easterEgg: EasterEgg) => {
       const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
       const actualCode = easterEgg.code[actualCodePosition];
-
       if (key !== actualCode) {
         this.easterEggState[easterEgg.tag] = 0;
         return;
       }
-
       const nextCodePosition = actualCodePosition + 1;
-
       if (nextCodePosition === easterEgg.code.length) {
         this.executeEasterEgg(easterEgg);
-
         this.easterEggState[easterEgg.tag] = 0;
       } else {
         this.easterEggState[easterEgg.tag] = nextCodePosition;
       }
     });
   }
-
   /**
    * Executes an easter egg, and calls its callbacks. After the easter egg is
    * executed, it will execute its onFinish callback if it has one. If the
@@ -161,9 +143,7 @@ export class PaskaOvo {
   private executeEasterEgg(easterEgg: EasterEgg) {
     try {
       easterEgg.onFound();
-
       this.callbacks.forEach((callback) => callback(easterEgg));
-
       if (easterEgg.onFinish) {
         setTimeout(
           easterEgg.onFinish,
@@ -174,7 +154,6 @@ export class PaskaOvo {
       console.error(`Error executing easter egg ${easterEgg.tag}:`, error);
     }
   }
-
   /**
    * Adds a callback to list of callbacks to be called when an easter egg is found.
    *
@@ -183,10 +162,8 @@ export class PaskaOvo {
    */
   public addCallback(callback: Callback): this {
     this.callbacks.push(callback);
-
     return this;
   }
-
   /**
    * Creates an event listener to the instance for keyup events if it is not already created.
    */
@@ -194,14 +171,11 @@ export class PaskaOvo {
     if (this.keyListener) {
       this.stop();
     }
-
     this.keyListener = (event: KeyboardEvent) => this.handleKeyEvent(event);
-
     document.addEventListener("keyup", this.keyListener, {
       signal: this.controller.signal,
     });
   }
-
   /**
    * Removes the event listener from the instance.
    */
