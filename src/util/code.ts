@@ -62,6 +62,5 @@ export function validateCode(code: string[], tag: string): string[] {
  */
 export const codeToChars = (code: string[]): string[] =>
   code
-    .map((c) => c.trim().toLowerCase())
     .filter((c) => c !== "")
     .map((c) => Object.keys(SPECIAL_KEYS).includes(c) ? SPECIAL_KEYS[c] : c);
