@@ -1,6 +1,10 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { codeToChars, validateKeyboardCode, validateSwipeCode } from "@/util/code.ts";
+import {
+  codeToChars,
+  validateKeyboardCode,
+  validateSwipeCode,
+} from "@/util/code.ts";
 import { HistoricalCodes } from "@/historical-codes.ts";
 
 describe("codeToChars", () => {
@@ -14,8 +18,32 @@ describe("codeToChars", () => {
 
     it("should handle all special keys correctly", () => {
       assertEquals(
-        codeToChars(["slash", "up", "down", "left", "right", "enter", "space", "ctrl", "alt", "tab", "esc"]),
-        ["/", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Enter", "Space", "Control", "Alt", "Tab", "Escape"],
+        codeToChars([
+          "slash",
+          "up",
+          "down",
+          "left",
+          "right",
+          "enter",
+          "space",
+          "ctrl",
+          "alt",
+          "tab",
+          "esc",
+        ]),
+        [
+          "/",
+          "ArrowUp",
+          "ArrowDown",
+          "ArrowLeft",
+          "ArrowRight",
+          "Enter",
+          "Space",
+          "Control",
+          "Alt",
+          "Tab",
+          "Escape",
+        ],
       );
     });
   });
@@ -75,21 +103,21 @@ describe("validateKeyboardCode", () => {
   it("should validate and clean keyboard codes correctly", () => {
     assertEquals(
       validateKeyboardCode(["up", "down", "left", "right"], "test"),
-      ["up", "down", "left", "right"]
+      ["up", "down", "left", "right"],
     );
   });
 
   it("should trim and lowercase keyboard codes", () => {
     assertEquals(
       validateKeyboardCode([" UP ", "Down", " LEFT", "RIGHT "], "test"),
-      ["up", "down", "left", "right"]
+      ["up", "down", "left", "right"],
     );
   });
 
   it("should filter out empty strings", () => {
     assertEquals(
       validateKeyboardCode(["up", "", "down", "  ", "left"], "test"),
-      ["up", "down", "left"]
+      ["up", "down", "left"],
     );
   });
 
@@ -97,7 +125,7 @@ describe("validateKeyboardCode", () => {
     assertThrows(
       () => validateKeyboardCode([], "test"),
       Error,
-      "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character."
+      "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character.",
     );
   });
 
@@ -105,7 +133,7 @@ describe("validateKeyboardCode", () => {
     assertThrows(
       () => validateKeyboardCode(["invalid", "up"], "test"),
       Error,
-      "Error executing easter egg test: The code for the easter egg must contain only valid key codes."
+      "Error executing easter egg test: The code for the easter egg must contain only valid key codes.",
     );
   });
 });
@@ -114,21 +142,21 @@ describe("validateSwipeCode", () => {
   it("should validate and clean swipe codes correctly", () => {
     assertEquals(
       validateSwipeCode(["up", "down", "left", "right"], "test"),
-      ["up", "down", "left", "right"]
+      ["up", "down", "left", "right"],
     );
   });
 
   it("should trim and lowercase swipe codes", () => {
     assertEquals(
       validateSwipeCode([" UP ", "Down", " LEFT", "RIGHT "], "test"),
-      ["up", "down", "left", "right"]
+      ["up", "down", "left", "right"],
     );
   });
 
   it("should filter out empty strings", () => {
     assertEquals(
       validateSwipeCode(["up", "", "down", "  ", "left"], "test"),
-      ["up", "down", "left"]
+      ["up", "down", "left"],
     );
   });
 
@@ -136,7 +164,7 @@ describe("validateSwipeCode", () => {
     assertThrows(
       () => validateSwipeCode([], "test"),
       Error,
-      "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character."
+      "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character.",
     );
   });
 
@@ -144,7 +172,7 @@ describe("validateSwipeCode", () => {
     assertThrows(
       () => validateSwipeCode(["invalid", "up"], "test"),
       Error,
-      "Error executing easter egg test: The code for the easter egg must contain only valid key codes."
+      "Error executing easter egg test: The code for the easter egg must contain only valid key codes.",
     );
   });
 });

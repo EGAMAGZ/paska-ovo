@@ -1,7 +1,7 @@
 /**
  * Represents the coordinates of a swipe gesture.
  * Contains both the starting and ending positions of a touch event.
- * 
+ *
  * @property {number} startX - The X coordinate where the swipe started
  * @property {number} startY - The Y coordinate where the swipe started
  * @property {number} endX - The X coordinate where the swipe ended
@@ -36,11 +36,25 @@ export type SwipeDirection =
  *
  * @example
  * ```ts
+ * import { assertEquals } from "@std/assert"
+ * let swipePositions = {
+ * 	startX: 0,
+ * 	endX: 50,
+ * 	startY: 0,
+ * 	endY: 0,
+ * };
  * // Returns "right" for a rightward swipe
- * calculateSwipeDirection(0, 50, 0, 0);
+ * assertEquals(calculateSwipeDirection(swipePositions),"right");
+ *
+ * swipePositions = {
+ * 	startX: 0,
+ * 	endX: 20,
+ * 	startY: 0,
+ * 	endY: 0,
+ * };
  *
  * // Returns "none" for a swipe that didn't travel far enough
- * calculateSwipeDirection(0, 20, 0, 0);
+ * assertEquals(calculateSwipeDirection(swipePositions),"none");
  * ```
  */
 export function calculateSwipeDirection(

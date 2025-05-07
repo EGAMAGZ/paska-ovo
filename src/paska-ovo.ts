@@ -18,11 +18,11 @@ const DEFAULT_DURATION = 1_000;
  *
  * @example
  * ```typescript
- * import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
+ * import { HistoricalCodes, PaskaOvo, type EasterEgg } from "@egamagz/paska-ovo";
  *
  * const paskaOvo = new PaskaOvo()
- * 	.addEasterEgg({
- * 		code: HistoricalCodes.BarrelRoll,
+ * 	.addKeyboardEasterEgg({
+ * 		code: HistoricalCodes.Konami,
  * 		onFound: () => {
  * 		//...
  * 		},
@@ -32,21 +32,14 @@ const DEFAULT_DURATION = 1_000;
  * 		duration: 1000,
  * 		tag: "Barrel Roll"
  * 	})
- * 	.addEasterEgg({
- * 		code: HistoricalCodes.Konami,
- * 		onFound: () => {
- * 		// ...
- * 		},
- * 		tag: "Konami"
- * 	})
- * 	.addEasterEgg({
+ * 	.addKeyboardEasterEgg({
  * 		code: ["a", "w", "e", "s", "o", "m", "e"],
  * 		onFound: () => {
  * 		// ...
  * 		},
  * 		tag: "Awesome"
  * 	})
- * 	.addCallback((easterEgg) => {
+ * 	.addCallback((easterEgg: EasterEgg) => {
  * 		alert(`You found the easter egg: ${easterEgg.tag}`)
  * 	});
  *
@@ -113,6 +106,18 @@ export class PaskaOvo {
    * Adds an easter egg to the easterEggs array of the current instance of
    * PaskaOvo.
    *
+   * @example
+   * ```typescript
+   * import { PaskaOvo } from "@egamagz/paska-ovo";
+   *
+   * const paskaOvo = new PaskaOvo();
+   * paskaOvo.addKeyboardEasterEgg({
+   * 	code: ["up", "up", "down", "down", "down", "left", "right", "left", "right", "a", "b"],
+   * 	onFound: ()=> console.log("Keyboard pattern detected!"),
+   * 	tag: "Keyboard Pattern"
+   * });
+   * ```
+   *
    * @param {EasterEgg} easterEgg - The easter egg to add.
    * @return {this} Current instance of PaskaOvo.
    */
@@ -130,10 +135,7 @@ export class PaskaOvo {
    * Adds a swipe-based easter egg to the swipeEasterEggs array.
    * The easter egg will be triggered when the user performs a swipe gesture
    * that matches the specified pattern.
-   * 
-   * @param {EasterEgg} easterEgg - The easter egg to add, containing the swipe pattern and callbacks
-   * @returns {this} Current instance of PaskaOvo for method chaining
-   * 
+   *
    * @example
    * ```typescript
    * import { PaskaOvo } from "@egamagz/paska-ovo";
@@ -144,6 +146,9 @@ export class PaskaOvo {
    *   tag: "Swipe Pattern"
    * });
    * ```
+   *
+   * @param {EasterEgg} easterEgg - The easter egg to add, containing the swipe pattern and callbacks
+   * @returns {this} Current instance of PaskaOvo for method chaining
    */
   public addSwipeEasterEgg(easterEgg: EasterEgg): this {
     const validCodes = validateSwipeCode(easterEgg.code, easterEgg.tag);

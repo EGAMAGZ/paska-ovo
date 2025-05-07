@@ -36,10 +36,10 @@ Check the [JSR page for more details](https://jsr.io/@egamagz/paska-ovo).
 ## Example
 
 ```typescript
-import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
+import { type EasterEgg, HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
 
 const paskaOvo = new PaskaOvo()
-  .addEasterEgg({
+  .addKeyboardEasterEgg({
     code: HistoricalCodes.BarrelRoll,
     onFound: () => {
       //...
@@ -50,14 +50,14 @@ const paskaOvo = new PaskaOvo()
     duration: 1000,
     tag: "Barrel Roll",
   })
-  .addEasterEgg({
+  .addKeyboardEasterEgg({
     code: HistoricalCodes.Konami,
     onFound: () => {
       // ...
     },
     tag: "Konami",
   })
-  .addEasterEgg({
+  .addKeyboardEasterEgg({
     code: ["a", "w", "e", "s", "o", "m", "e"],
     onFound: () => {
       // ...
@@ -69,35 +69,14 @@ const paskaOvo = new PaskaOvo()
   });
 
 // Listen to keyboard events
-document.getElementById("add-easter-egg").addEventListener("click", () => {
+document.getElementById("add-easter-egg")?.addEventListener("click", () => {
   paskaOvo.listen();
 });
 
 // Stop listening to keyboard events
-document
-  .getElementById("remove-easter-egg")
-  .addEventListener("click", () => {
-    paskaOvo.stop();
-  });
-```
-
-Alternatively, it's possible to define the easter egg using the constructor:
-
-```typescript
-import { HistoricalCodes, PaskaOvo } from "@egamagz/paska-ovo";
-
-const paskaOvo = new PaskaOvo({
-  code: HistoricalCodes.Konami,
-  onFound: () => {
-    alert("Gradius");
-  },
-  tag: "konami-code",
-}).addCallback((easterEgg) => {
-  console.log("Actual easter egg:", easterEgg.tag);
-  console.log("Easter egg's code:", easterEgg.code);
+document.getElementById("remove-easter-egg")?.addEventListener("click", () => {
+  paskaOvo.stop();
 });
-
-paskaOvo.listen();
 ```
 
 Check the [example](https://egamagz.github.io/paska-ovo/) with
