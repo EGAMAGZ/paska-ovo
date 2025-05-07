@@ -49,11 +49,9 @@ const DEFAULT_DURATION = 1_000;
  * 	});
  *
  * 	// Stop listening to keyboard events
- * 	document
- * 		.getElementById("remove-easter-egg")
- * 		?.addEventListener("click", () => {
+ * 	document.getElementById("remove-easter-egg")?.addEventListener("click", () => {
  * 			paskaOvo.stop();
- * 		});
+ * 	});
  * ```
  */
 export class PaskaOvo {
@@ -233,10 +231,11 @@ export class PaskaOvo {
       easterEgg.onFound();
       this.callbacks.forEach((callback) => callback(easterEgg));
       if (easterEgg.onFinish) {
-        setTimeout(
+        const timeout = setTimeout(
           easterEgg.onFinish,
           easterEgg.duration || DEFAULT_DURATION,
         );
+	clearTimeout(timeout);
       }
     } catch (error) {
       console.error(`Error executing easter egg ${easterEgg.tag}:`, error);

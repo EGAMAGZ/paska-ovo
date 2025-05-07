@@ -46,7 +46,7 @@ export function validateKeyboardCode(code: string[], tag: string): string[] {
 
   if (
     cleanedCodes.some((c) =>
-      !Object.keys(SPECIAL_KEYS).includes(c) || !/[a-z0-9]/i.test(c)
+      !Object.keys(SPECIAL_KEYS).includes(c) && !/[a-z0-9]/i.test(c)
     )
   ) {
     throw new Error(

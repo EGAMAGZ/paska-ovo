@@ -5,7 +5,7 @@ import {
   validateKeyboardCode,
   validateSwipeCode,
 } from "@/util/code.ts";
-import { HistoricalCodes } from "@/historical-codes.ts";
+import { HistoricalCodes } from "../historical_codes.ts";
 
 describe("codeToChars", () => {
   describe("Special key conversion", () => {
