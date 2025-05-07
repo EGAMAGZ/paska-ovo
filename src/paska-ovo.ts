@@ -5,7 +5,12 @@
  * point of the library.
  */
 import type { Callback, EasterEgg, EasterEggState } from "./types.ts";
-import { codeToChars, validateCode } from "./util/code.ts";
+import {
+  codeToChars,
+  validateKeyboardCode,
+  validateSwipeCode,
+} from "./util/code.ts";
+import { calculateSwipeDirection, type SwipePositions } from "./util/swipe.ts";
 import { isInputElement } from "./util/dom.ts";
 const DEFAULT_DURATION = 1_000;
 /**
@@ -60,9 +65,13 @@ const DEFAULT_DURATION = 1_000;
  */
 export class PaskaOvo {
   /**
-   * List of easter eggs registered.
+   * List of easter eggs registered triggered by typing on a keyboard
    */
-  private easterEggs: EasterEgg[] = [];
+  private keyboardEasterEggs: EasterEgg[] = [];
+  /**
+   * List of easter eggs registered triggered by swiping
+   */
+  private swipeEasterEggs: EasterEgg[] = [];
   /**
    * List of callbacks registered for each easter egg when it is found.
    */
@@ -75,17 +84,31 @@ export class PaskaOvo {
    * The key listener for the current instance of PaskaOvo.
    */
   private keyListener?: (event: KeyboardEvent) => void;
-  private controller = new AbortController();
   /**
-   * Constructs a new instance of the class with optional parameters for an easter egg.
-   *
-   * @param {EasterEgg} easterEgg - The easter egg to add.
+   * Stores the coordinates for tracking swipe gestures.
+   * Contains start and end positions for both X and Y axes.
    */
-  constructor(easterEgg?: EasterEgg) {
-    if (easterEgg) {
-      this.addEasterEgg(easterEgg);
-    }
-  }
+  private swipePositions: SwipePositions = {
+    startX: 0,
+    startY: 0,
+    endX: 0,
+    endY: 0,
+  };
+  /**
+   * Event listener for touch start events.
+   * Used to track the beginning of a swipe gesture.
+   */
+  private touchStartListener?: (event: TouchEvent) => void;
+  /**
+   * Event listener for touch end events.
+   * Used to track the end of a swipe gesture.
+   */
+  private touchEndListener?: (event: TouchEvent) => void;
+  /**
+   * Controller for managing event listener cleanup.
+   * Used to abort event listeners when stopping the easter egg detection.
+   */
+  private controller = new AbortController();
   /**
    * Adds an easter egg to the easterEggs array of the current instance of
    * PaskaOvo.
@@ -93,13 +116,40 @@ export class PaskaOvo {
    * @param {EasterEgg} easterEgg - The easter egg to add.
    * @return {this} Current instance of PaskaOvo.
    */
-  public addEasterEgg(easterEgg: EasterEgg): this {
-    const validCodes = validateCode(easterEgg.code, easterEgg.tag);
+  public addKeyboardEasterEgg(easterEgg: EasterEgg): this {
+    const validCodes = validateKeyboardCode(easterEgg.code, easterEgg.tag);
     const code = codeToChars(validCodes);
-
-    this.easterEggs.push({
+    this.keyboardEasterEggs.push({
       ...easterEgg,
       code,
+    });
+    return this;
+  }
+
+  /**
+   * Adds a swipe-based easter egg to the swipeEasterEggs array.
+   * The easter egg will be triggered when the user performs a swipe gesture
+   * that matches the specified pattern.
+   * 
+   * @param {EasterEgg} easterEgg - The easter egg to add, containing the swipe pattern and callbacks
+   * @returns {this} Current instance of PaskaOvo for method chaining
+   * 
+   * @example
+   * ```typescript
+   * import { PaskaOvo } from "@egamagz/paska-ovo";
+   * const paskaOvo = new PaskaOvo();
+   * paskaOvo.addSwipeEasterEgg({
+   *   code: ["up", "right", "down"],
+   *   onFound: () => console.log("Swipe pattern detected!"),
+   *   tag: "Swipe Pattern"
+   * });
+   * ```
+   */
+  public addSwipeEasterEgg(easterEgg: EasterEgg): this {
+    const validCodes = validateSwipeCode(easterEgg.code, easterEgg.tag);
+    this.swipeEasterEggs.push({
+      ...easterEgg,
+      code: validCodes,
     });
     return this;
   }
@@ -111,12 +161,9 @@ export class PaskaOvo {
    * @param {KeyboardEvent} event - The key event to handle.
    */
   private handleKeyEvent(event: KeyboardEvent) {
-
     const { key } = event;
-
     if (isInputElement(document.activeElement)) return;
-
-    this.easterEggs.forEach((easterEgg: EasterEgg) => {
+    this.keyboardEasterEggs.forEach((easterEgg: EasterEgg) => {
       const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
       const actualCode = easterEgg.code[actualCodePosition];
       if (key !== actualCode) {
@@ -133,12 +180,48 @@ export class PaskaOvo {
     });
   }
   /**
-   * Executes an easter egg, and calls its callbacks. After the easter egg is
-   * executed, it will execute its onFinish callback if it has one. If the
-   * easter egg also has a duration, the onFinish callback will be executed
-   * after the duration.
+   * Handles the touch start event by recording the initial touch position.
+   * This is used to track the starting point of a swipe gesture.
    *
-   * @param {EasterEgg} easterEgg - The easter egg to execute.
+   * @param {TouchEvent} event - The touch event containing the initial touch coordinates
+   */
+  private handleTouchStartEvent(event: TouchEvent) {
+    const { pageX, pageY } = event.changedTouches[0];
+    this.swipePositions.startX = pageX;
+    this.swipePositions.startY = pageY;
+  }
+  /**
+   * Handles the touch end event by recording the final touch position and calculating
+   * the swipe direction. If the swipe matches an easter egg pattern, it will be triggered.
+   *
+   * @param {TouchEvent} event - The touch event containing the final touch coordinates
+   */
+  private handleTouchEndEvent(event: TouchEvent) {
+    const { pageX, pageY } = event.changedTouches[0];
+    this.swipePositions.endX = pageX;
+    this.swipePositions.endY = pageY;
+    const direction = calculateSwipeDirection(this.swipePositions);
+    this.swipeEasterEggs.forEach((easterEgg: EasterEgg) => {
+      const actualCodePosition = this.easterEggState[easterEgg.tag] || 0;
+      const actualCode = easterEgg.code[actualCodePosition];
+      if (direction !== actualCode) {
+        this.easterEggState[easterEgg.tag] = 0;
+        return;
+      }
+      const nextCodePosition = actualCodePosition + 1;
+      if (nextCodePosition === easterEgg.code.length) {
+        this.executeEasterEgg(easterEgg);
+        this.easterEggState[easterEgg.tag] = 0;
+      } else {
+        this.easterEggState[easterEgg.tag] = nextCodePosition;
+      }
+    });
+  }
+  /**
+   * Executes an easter egg by calling its onFound callback and any registered callbacks.
+   * If the easter egg has an onFinish callback, it will be executed after the specified duration.
+   *
+   * @param {EasterEgg} easterEgg - The easter egg to execute
    */
   private executeEasterEgg(easterEgg: EasterEgg) {
     try {
@@ -168,11 +251,21 @@ export class PaskaOvo {
    * Creates an event listener to the instance for keyup events if it is not already created.
    */
   public listen() {
-    if (this.keyListener) {
+    if (this.keyListener || this.touchStartListener || this.touchEndListener) {
       this.stop();
     }
     this.keyListener = (event: KeyboardEvent) => this.handleKeyEvent(event);
+    this.touchStartListener = (event: TouchEvent) =>
+      this.handleTouchStartEvent(event);
+    this.touchEndListener = (event: TouchEvent) =>
+      this.handleTouchEndEvent(event);
     document.addEventListener("keyup", this.keyListener, {
+      signal: this.controller.signal,
+    });
+    document.addEventListener("touchstart", this.touchStartListener, {
+      signal: this.controller.signal,
+    });
+    document.addEventListener("touchend", this.touchEndListener, {
       signal: this.controller.signal,
     });
   }
@@ -180,9 +273,11 @@ export class PaskaOvo {
    * Removes the event listener from the instance.
    */
   public stop() {
-    if (this.keyListener) {
+    if (this.keyListener || this.touchStartListener || this.touchEndListener) {
       this.controller.abort();
       this.keyListener = undefined;
+      this.touchStartListener = undefined;
+      this.touchEndListener = undefined;
     }
   }
 }

@@ -1,6 +1,6 @@
-import { assertEquals } from "@std/assert";
+import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { codeToChars, validateCode } from "@/util/code.ts";
+import { codeToChars, validateKeyboardCode, validateSwipeCode } from "@/util/code.ts";
 import { HistoricalCodes } from "@/historical-codes.ts";
 
 describe("codeToChars", () => {
@@ -71,116 +71,80 @@ describe("codeToChars", () => {
   });
 });
 
-describe("validateCode", () => {
-  describe("Basic validation", () => {
-    it("should validate a simple code correctly", () => {
-      assertEquals(
-        validateCode(["a", "b", "c"], "test"),
-        ["a", "b", "c"],
-      );
-    });
-
-    it("should validate a code with numbers correctly", () => {
-      assertEquals(
-        validateCode(["1", "2", "3"], "test"),
-        ["1", "2", "3"],
-      );
-    });
-
-    it("should validate a code with mixed alphanumeric characters correctly", () => {
-      assertEquals(
-        validateCode(["a", "1", "b", "2"], "test"),
-        ["a", "1", "b", "2"],
-      );
-    });
+describe("validateKeyboardCode", () => {
+  it("should validate and clean keyboard codes correctly", () => {
+    assertEquals(
+      validateKeyboardCode(["up", "down", "left", "right"], "test"),
+      ["up", "down", "left", "right"]
+    );
   });
 
-  describe("Input cleaning", () => {
-    it("should trim whitespace from codes", () => {
-      assertEquals(
-        validateCode(["  a  ", "  b  ", "  c  "], "test"),
-        ["a", "b", "c"],
-      );
-    });
-
-    it("should convert codes to lowercase", () => {
-      assertEquals(
-        validateCode(["A", "B", "C"], "test"),
-        ["a", "b", "c"],
-      );
-    });
-
-    it("should remove empty strings", () => {
-      assertEquals(
-        validateCode(["a", "", "b", "  ", "c"], "test"),
-        ["a", "b", "c"],
-      );
-    });
+  it("should trim and lowercase keyboard codes", () => {
+    assertEquals(
+      validateKeyboardCode([" UP ", "Down", " LEFT", "RIGHT "], "test"),
+      ["up", "down", "left", "right"]
+    );
   });
 
-  describe("Error handling", () => {
-    it("should throw error for empty code array", () => {
-      try {
-        validateCode([], "test");
-        throw new Error("Expected error was not thrown");
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          assertEquals(
-            error.message,
-            "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character.",
-          );
-        } else {
-          throw new Error("Unexpected error type");
-        }
-      }
-    });
+  it("should filter out empty strings", () => {
+    assertEquals(
+      validateKeyboardCode(["up", "", "down", "  ", "left"], "test"),
+      ["up", "down", "left"]
+    );
+  });
 
-    it("should throw error for code with only empty strings", () => {
-      try {
-        validateCode(["", "  ", "\t"], "test");
-        throw new Error("Expected error was not thrown");
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          assertEquals(
-            error.message,
-            "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character.",
-          );
-        } else {
-          throw new Error("Unexpected error type");
-        }
-      }
-    });
+  it("should throw error for empty code array", () => {
+    assertThrows(
+      () => validateKeyboardCode([], "test"),
+      Error,
+      "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character."
+    );
+  });
 
-    it("should throw error for code with invalid characters", () => {
-      try {
-        validateCode(["a", "!", "b"], "test");
-        throw new Error("Expected error was not thrown");
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          assertEquals(
-            error.message,
-            "Error executing easter egg test: The code for the easter egg must contain only valid key codes.",
-          );
-        } else {
-          throw new Error("Unexpected error type");
-        }
-      }
-    });
+  it("should throw error for invalid keyboard codes", () => {
+    assertThrows(
+      () => validateKeyboardCode(["invalid", "up"], "test"),
+      Error,
+      "Error executing easter egg test: The code for the easter egg must contain only valid key codes."
+    );
+  });
+});
 
-    it("should throw error for code with special keys", () => {
-      try {
-        validateCode(["a", "up", "b"], "test");
-        throw new Error("Expected error was not thrown");
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          assertEquals(
-            error.message,
-            "Error executing easter egg test: The code for the easter egg must contain only valid key codes.",
-          );
-        } else {
-          throw new Error("Unexpected error type");
-        }
-      }
-    });
+describe("validateSwipeCode", () => {
+  it("should validate and clean swipe codes correctly", () => {
+    assertEquals(
+      validateSwipeCode(["up", "down", "left", "right"], "test"),
+      ["up", "down", "left", "right"]
+    );
+  });
+
+  it("should trim and lowercase swipe codes", () => {
+    assertEquals(
+      validateSwipeCode([" UP ", "Down", " LEFT", "RIGHT "], "test"),
+      ["up", "down", "left", "right"]
+    );
+  });
+
+  it("should filter out empty strings", () => {
+    assertEquals(
+      validateSwipeCode(["up", "", "down", "  ", "left"], "test"),
+      ["up", "down", "left"]
+    );
+  });
+
+  it("should throw error for empty code array", () => {
+    assertThrows(
+      () => validateSwipeCode([], "test"),
+      Error,
+      "Error executing easter egg test: The code for the easter egg must contain at least one non-empty character."
+    );
+  });
+
+  it("should throw error for invalid swipe directions", () => {
+    assertThrows(
+      () => validateSwipeCode(["invalid", "up"], "test"),
+      Error,
+      "Error executing easter egg test: The code for the easter egg must contain only valid key codes."
+    );
   });
 });

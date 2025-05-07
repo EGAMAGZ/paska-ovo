@@ -1,10 +1,25 @@
 /**
+ * Represents the coordinates of a swipe gesture.
+ * Contains both the starting and ending positions of a touch event.
+ * 
+ * @property {number} startX - The X coordinate where the swipe started
+ * @property {number} startY - The Y coordinate where the swipe started
+ * @property {number} endX - The X coordinate where the swipe ended
+ * @property {number} endY - The Y coordinate where the swipe ended
+ */
+export type SwipePositions = {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
+};
+
+/**
  * The minimum distance in pixels that a swipe must travel to be considered a valid swipe.
  */
 const SWIPE_THRESHOLD = 30;
 /**
  * Represents the possible directions of a swipe gesture.
- * @typedef {("up"|"down"|"right"|"left"|"none")} SwipeDirection
  */
 export type SwipeDirection =
   | "up"
@@ -12,13 +27,11 @@ export type SwipeDirection =
   | "right"
   | "left"
   | "none";
+
 /**
  * Calculates the direction of a swipe gesture based on start and end coordinates.
  *
- * @param {number} startX - The X coordinate where the swipe started
- * @param {number} endX - The X coordinate where the swipe ended
- * @param {number} startY - The Y coordinate where the swipe started
- * @param {number} endY - The Y coordinate where the swipe ended
+ * @param {SwipePositions} swipePositions - The starting and ending positions from the swipe
  * @returns {SwipeDirection} The direction of the swipe ("up", "down", "right", "left", or "none")
  *
  * @example
@@ -31,10 +44,7 @@ export type SwipeDirection =
  * ```
  */
 export function calculateSwipeDirection(
-  startX: number,
-  endX: number,
-  startY: number,
-  endY: number,
+  { startX, endX, startY, endY }: SwipePositions,
 ): SwipeDirection {
   const distanceX = endX - startX;
   const distanceY = endY - startY;
