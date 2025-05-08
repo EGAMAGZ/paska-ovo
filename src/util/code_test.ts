@@ -136,6 +136,63 @@ describe("validateKeyboardCode", () => {
       "Error executing easter egg test: The code for the easter egg must contain only valid key codes.",
     );
   });
+
+  it("should handle mixed alphanumeric and special keys", () => {
+    assertEquals(
+      validateKeyboardCode(["a", "up", "1", "right", "b", "enter"], "test"),
+      ["a", "up", "1", "right", "b", "enter"],
+    );
+  });
+
+  it("should handle all special keys correctly", () => {
+    assertEquals(
+      validateKeyboardCode(
+        ["slash", "up", "down", "left", "right", "enter", "space", "ctrl", "alt", "tab", "esc"],
+        "test"
+      ),
+      ["slash", "up", "down", "left", "right", "enter", "space", "ctrl", "alt", "tab", "esc"],
+    );
+  });
+
+  it("should handle mixed case letters and convert to lowercase", () => {
+    assertEquals(
+      validateKeyboardCode(["A", "b", "C", "d", "E"], "test"),
+      ["a", "b", "c", "d", "e"],
+    );
+  });
+
+  it("should handle numbers and special characters", () => {
+    assertEquals(
+      validateKeyboardCode(["1", "2", "3", "slash", "4", "5"], "test"),
+      ["1", "2", "3", "slash", "4", "5"],
+    );
+  });
+
+  it("should throw error for multi-character codes", () => {
+    assertThrows(
+      () => validateKeyboardCode(["ab", "up"], "test"),
+      Error,
+      "Error executing easter egg test: The code for the easter egg must contain only valid key codes.",
+    );
+  });
+
+  it("should throw error for special characters not in SPECIAL_KEYS", () => {
+    assertThrows(
+      () => validateKeyboardCode(["@", "up"], "test"),
+      Error,
+      "Error executing easter egg test: The code for the easter egg must contain only valid key codes.",
+    );
+  });
+
+  it("should handle historical codes correctly", () => {
+    assertEquals(
+      validateKeyboardCode(
+        ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"],
+        "konami"
+      ),
+      ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"],
+    );
+  });
 });
 
 describe("validateSwipeCode", () => {

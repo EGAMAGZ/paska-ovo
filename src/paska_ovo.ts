@@ -235,7 +235,6 @@ export class PaskaOvo {
           easterEgg.onFinish,
           easterEgg.duration || DEFAULT_DURATION,
         );
-	clearTimeout(timeout);
       }
     } catch (error) {
       console.error(`Error executing easter egg ${easterEgg.tag}:`, error);

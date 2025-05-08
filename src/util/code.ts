@@ -45,9 +45,15 @@ export function validateKeyboardCode(code: string[], tag: string): string[] {
   }
 
   if (
-    cleanedCodes.some((c) =>
-      !Object.keys(SPECIAL_KEYS).includes(c) && !/[a-z0-9]/i.test(c)
-    )
+    cleanedCodes.some((c) => {
+      // Check if it's a special key
+      if (Object.keys(SPECIAL_KEYS).includes(c)) {
+        return false; // It's a valid special key
+      }
+      
+      // If not a special key, it must be a single alphanumeric character
+      return c.length !== 1 || !/[a-z0-9]/i.test(c);
+    })
   ) {
     throw new Error(
       `Error executing easter egg ${tag}: The code for the easter egg must contain only valid key codes.`,
