@@ -2,7 +2,8 @@
 
 ![Paska](./img/paska-logo.png)
 
-A simple javascript library for adding easter eggs to web pages. Supports both keyboard patterns for desktop and swipe gestures for mobile devices.
+A simple javascript library for adding easter eggs to web pages. Supports both
+keyboard patterns for desktop and swipe gestures for mobile devices.
 
 [![JSR](https://jsr.io/badges/@egamagz/paska-ovo)](https://jsr.io/@egamagz/paska-ovo)
 [![JSR Score](https://jsr.io/badges/@egamagz/paska-ovo/score)](https://jsr.io/@egamagz/paska-ovo/score)
@@ -35,10 +36,13 @@ Check the [JSR page for more details](https://jsr.io/@egamagz/paska-ovo).
 
 ## Features
 
-- **Keyboard Easter Eggs**: Perfect for desktop users, allowing them to trigger easter eggs through keyboard sequences
-- **Swipe Easter Eggs**: Designed for mobile devices, enabling users to discover easter eggs through touch gestures
+- **Keyboard Easter Eggs**: Perfect for desktop users, allowing them to trigger
+  easter eggs through keyboard sequences
+- **Swipe Easter Eggs**: Designed for mobile devices, enabling users to discover
+  easter eggs through touch gestures
 - **Multiple Patterns**: Support for multiple easter eggs with similar patterns
-- **Duration & Callbacks**: Configurable duration and callbacks for both onFound and onFinish events
+- **Duration & Callbacks**: Configurable duration and callbacks for both onFound
+  and onFinish events
 - **Error Handling**: Graceful error handling for callback functions
 
 ## Example
@@ -101,7 +105,8 @@ document.getElementById("remove-easter-egg")?.addEventListener("click", () => {
 
 ### Keyboard Easter Eggs (Desktop)
 
-Keyboard easter eggs are triggered by typing specific key sequences. They work best on desktop devices where users have access to a keyboard.
+Keyboard easter eggs are triggered by typing specific key sequences. They work
+best on desktop devices where users have access to a keyboard.
 
 ```typescript
 paskaOvo.addKeyboardEasterEgg({
@@ -119,7 +124,8 @@ paskaOvo.addKeyboardEasterEgg({
 
 ### Swipe Easter Eggs (Mobile)
 
-Swipe easter eggs are triggered by performing specific swipe gestures. They are designed for mobile devices with touch screens.
+Swipe easter eggs are triggered by performing specific swipe gestures. They are
+designed for mobile devices with touch screens.
 
 ```typescript
 paskaOvo.addSwipeEasterEgg({
