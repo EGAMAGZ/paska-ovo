@@ -147,10 +147,34 @@ describe("validateKeyboardCode", () => {
   it("should handle all special keys correctly", () => {
     assertEquals(
       validateKeyboardCode(
-        ["slash", "up", "down", "left", "right", "enter", "space", "ctrl", "alt", "tab", "esc"],
-        "test"
+        [
+          "slash",
+          "up",
+          "down",
+          "left",
+          "right",
+          "enter",
+          "space",
+          "ctrl",
+          "alt",
+          "tab",
+          "esc",
+        ],
+        "test",
       ),
-      ["slash", "up", "down", "left", "right", "enter", "space", "ctrl", "alt", "tab", "esc"],
+      [
+        "slash",
+        "up",
+        "down",
+        "left",
+        "right",
+        "enter",
+        "space",
+        "ctrl",
+        "alt",
+        "tab",
+        "esc",
+      ],
     );
   });
 
@@ -187,8 +211,19 @@ describe("validateKeyboardCode", () => {
   it("should handle historical codes correctly", () => {
     assertEquals(
       validateKeyboardCode(
-        ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"],
-        "konami"
+        [
+          "up",
+          "up",
+          "down",
+          "down",
+          "left",
+          "right",
+          "left",
+          "right",
+          "b",
+          "a",
+        ],
+        "konami",
       ),
       ["up", "up", "down", "down", "left", "right", "left", "right", "b", "a"],
     );

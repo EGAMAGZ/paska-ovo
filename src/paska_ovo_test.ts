@@ -30,8 +30,16 @@ function simulateKeyPress(key: string) {
   document.dispatchEvent(event);
 }
 
-function simulateSwipe(startX: number, startY: number, endX: number, endY: number) {
-  const touchStart = new TouchEvent("touchstart", { pageX: startX, pageY: startY });
+function simulateSwipe(
+  startX: number,
+  startY: number,
+  endX: number,
+  endY: number,
+) {
+  const touchStart = new TouchEvent("touchstart", {
+    pageX: startX,
+    pageY: startY,
+  });
   const touchEnd = new TouchEvent("touchend", { pageX: endX, pageY: endY });
   document.dispatchEvent(touchStart);
   document.dispatchEvent(touchEnd);
@@ -66,11 +74,11 @@ describe("PaskaOvo", () => {
 
         paskaOvo.addKeyboardEasterEgg(easterEgg);
         assertEquals(greeting?.textContent, "Hello World!");
-        
+
         paskaOvo.listen();
         easterEgg.code.forEach(simulateKeyPress);
         assertEquals(greeting?.textContent, "Goodbye World!");
-        
+
         paskaOvo.stop();
       });
 
@@ -90,14 +98,14 @@ describe("PaskaOvo", () => {
 
         paskaOvo.addKeyboardEasterEgg(easterEgg);
         assertEquals(greeting?.textContent, "Hello World!");
-        
+
         paskaOvo.listen();
         easterEgg.code.forEach(simulateKeyPress);
         assertEquals(greeting?.textContent, "Goodbye World!");
-        
+
         await new Promise((resolve) => setTimeout(resolve, 1_200));
         assertEquals(greeting?.textContent, "Welcome back!");
-        
+
         paskaOvo.stop();
       });
     });
@@ -134,7 +142,7 @@ describe("PaskaOvo", () => {
         paskaOvo.listen();
         [..."abcd"].forEach(simulateKeyPress);
         assertEquals(foundEasterEggs, ["ABCD"]);
-        
+
         paskaOvo.stop();
       });
 
@@ -169,7 +177,7 @@ describe("PaskaOvo", () => {
         paskaOvo.listen();
         [..."abcdefg"].forEach(simulateKeyPress);
         assertEquals(foundEasterEggs, ["ABCD", "ABCD+", "EFG"]);
-        
+
         paskaOvo.stop();
       });
     });
@@ -215,7 +223,7 @@ describe("PaskaOvo", () => {
           "b",
         ].forEach(simulateKeyPress);
         assertEquals(foundEasterEggs, ["Keyboard Pattern"]);
-        
+
         paskaOvo.stop();
       });
     });
@@ -237,10 +245,10 @@ describe("PaskaOvo", () => {
 
         paskaOvo.addKeyboardEasterEgg(easterEgg);
         paskaOvo.listen();
-        
+
         // Should not throw
         ["a", "b"].forEach(simulateKeyPress);
-        
+
         paskaOvo.stop();
         console.error = consoleSpy.error; // Restore console.error
       });
@@ -267,18 +275,18 @@ describe("PaskaOvo", () => {
         simulateKeyPress("a");
         // Interrupting the sequence with a wrong key
         simulateKeyPress("z");
-        
+
         // No easter egg should be detected at this point
         assertEquals(foundEasterEggs, []);
-        
+
         // Now do the full sequence correctly
         simulateKeyPress("a");
         simulateKeyPress("b");
         simulateKeyPress("c");
-        
+
         // The easter egg should be found now that we've done a complete sequence
         assertEquals(foundEasterEggs, ["ABC Pattern"]);
-        
+
         paskaOvo.stop();
       });
     });
@@ -298,12 +306,12 @@ describe("PaskaOvo", () => {
 
         paskaOvo.addSwipeEasterEgg(easterEgg);
         assertEquals(greeting?.textContent, "Hello World!");
-        
+
         paskaOvo.listen();
-        simulateSwipe(100, 200, 100, 50);  // up
+        simulateSwipe(100, 200, 100, 50); // up
         simulateSwipe(100, 100, 200, 100); // right
         simulateSwipe(200, 100, 200, 200); // down
-        
+
         assertEquals(greeting?.textContent, "Swipe detected!");
         paskaOvo.stop();
       });
@@ -324,16 +332,16 @@ describe("PaskaOvo", () => {
 
         paskaOvo.addSwipeEasterEgg(easterEgg);
         assertEquals(greeting?.textContent, "Hello World!");
-        
+
         paskaOvo.listen();
-        simulateSwipe(100, 200, 100, 50);  // up
+        simulateSwipe(100, 200, 100, 50); // up
         simulateSwipe(100, 100, 200, 100); // right
-        
+
         assertEquals(greeting?.textContent, "Swipe detected!");
-        
+
         await new Promise((resolve) => setTimeout(resolve, 1_200));
         assertEquals(greeting?.textContent, "Swipe finished!");
-        
+
         paskaOvo.stop();
       });
     });
@@ -368,10 +376,10 @@ describe("PaskaOvo", () => {
         });
 
         paskaOvo.listen();
-        simulateSwipe(100, 200, 100, 50);  // up
+        simulateSwipe(100, 200, 100, 50); // up
         simulateSwipe(100, 100, 200, 100); // right
         simulateSwipe(200, 100, 200, 200); // down
-        
+
         assertEquals(foundEasterEggs, ["URD Pattern"]);
         paskaOvo.stop();
       });
@@ -405,12 +413,16 @@ describe("PaskaOvo", () => {
         });
 
         paskaOvo.listen();
-        simulateSwipe(100, 200, 100, 50);  // up
+        simulateSwipe(100, 200, 100, 50); // up
         simulateSwipe(100, 100, 200, 100); // right
         simulateSwipe(200, 100, 200, 200); // down
-        simulateSwipe(200, 200, 50, 200);  // left
-        
-        assertEquals(foundEasterEggs, ["UR Pattern", "URD Pattern", "DL Pattern"]);
+        simulateSwipe(200, 200, 50, 200); // left
+
+        assertEquals(foundEasterEggs, [
+          "UR Pattern",
+          "URD Pattern",
+          "DL Pattern",
+        ]);
         paskaOvo.stop();
       });
     });
@@ -432,11 +444,11 @@ describe("PaskaOvo", () => {
 
         paskaOvo.addSwipeEasterEgg(easterEgg);
         paskaOvo.listen();
-        
+
         // Should not throw
-        simulateSwipe(100, 200, 100, 50);  // up
+        simulateSwipe(100, 200, 100, 50); // up
         simulateSwipe(100, 100, 200, 100); // right
-        
+
         paskaOvo.stop();
         console.error = consoleSpy.error; // Restore console.error
       });
@@ -455,14 +467,14 @@ describe("PaskaOvo", () => {
         });
 
         paskaOvo.listen();
-        simulateSwipe(100, 200, 100, 50);  // up
-        simulateSwipe(100, 100, 50, 100);  // left (wrong)
+        simulateSwipe(100, 200, 100, 50); // up
+        simulateSwipe(100, 100, 50, 100); // left (wrong)
         simulateSwipe(100, 100, 200, 100); // right
         simulateSwipe(200, 100, 200, 200); // down
-        
+
         // Should not trigger because pattern was broken
         assertEquals(foundEasterEggs, []);
-        
+
         paskaOvo.stop();
       });
     });

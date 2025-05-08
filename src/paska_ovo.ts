@@ -39,6 +39,13 @@ const DEFAULT_DURATION = 1_000;
  * 		},
  * 		tag: "Awesome"
  * 	})
+ *  .addSwipeEasterEgg({
+ *    code: ["up", "right", "down"],
+ *    onFound: ()=>{
+ *      //...
+ *    },
+ *    tag: "URD"
+ *  })
  * 	.addCallback((easterEgg: EasterEgg) => {
  * 		alert(`You found the easter egg: ${easterEgg.tag}`)
  * 	});
@@ -231,7 +238,7 @@ export class PaskaOvo {
       easterEgg.onFound();
       this.callbacks.forEach((callback) => callback(easterEgg));
       if (easterEgg.onFinish) {
-        const timeout = setTimeout(
+        setTimeout(
           easterEgg.onFinish,
           easterEgg.duration || DEFAULT_DURATION,
         );
