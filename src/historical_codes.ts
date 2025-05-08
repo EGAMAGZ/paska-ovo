@@ -11,14 +11,14 @@ export const HistoricalCodes = {
    * Konami code. No one knows what it is.
    */
   Konami: [
-    "Up",
-    "Up",
-    "Down",
-    "Down",
-    "Left",
-    "Right",
-    "Left",
-    "Right",
+    "up",
+    "up",
+    "down",
+    "down",
+    "left",
+    "right",
+    "left",
+    "right",
     "b",
     "a",
   ],
@@ -29,5 +29,5 @@ export const HistoricalCodes = {
   /**
    * Barrel roll code. Reference to the phrase from Star Fox 64.
    */
-  BarrelRoll: ["Up", "Right", "Down", "Left"],
+  BarrelRoll: ["up", "right", "down", "left"],
 };

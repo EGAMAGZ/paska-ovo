@@ -9,8 +9,10 @@ on:
     branches:
       - master
 
+  workflow_call:
+
 jobs:
-  lint:
+  check-linting:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository

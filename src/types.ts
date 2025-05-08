@@ -1,13 +1,12 @@
 /**
- * @module
  * This module contains the types for the project.
+ * @module
  */
 
 /**
  * Type with the properties of an easter egg.
  *
- * @example
- * A simple easter egg:
+ * @example A simple easter egg:
  * ```typescript
  * import { EasterEgg } from "@egamagz/paska-ovo";
  *
@@ -72,7 +71,6 @@ export type EasterEgg = {
    */
   duration?: number;
 };
-
 /**
  * State of an easter egg. Stores the actual position in the code, the index
  * position in the code, as the keys are pressed and the tag of an easter egg.
@@ -83,7 +81,6 @@ export interface EasterEggState {
    */
   [tag: string]: number;
 }
-
 /**
  * Callback function that will be called when an easter egg is found.
  */
